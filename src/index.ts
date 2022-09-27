@@ -84,14 +84,71 @@ app.post("/api/v1/eventlist", (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: `New event is added`,
-    //message: users,
-    // users: users
-  }); // serveri vastus, et kõik on hästi, json objekti vastus, mis tagasi saata
+  }); 
+
+});
+
+app.put("/api/v1/eventlist", (req: Request, res: Response) => { 
+
+
+  
+  const {
+    idx,
+    organizer,
+    eventType,
+    eventName,
+    eventDescription,
+    startTime,
+    endTime,
+    location,
+    status,
+    ticketPrice
+  }  = req.body; 
+  
+  const index = events.findIndex(element => {element.id===idx})
+
+  console.log(index);
+  console.log(idx);
+  //console.log(events[index]["organizer"]);
+
+  /*
+  if (typeof organizer !== 'undefined')
+    events[index]["organizer"] = organizer;
+  
+  if (typeof eventType !== 'undefined')
+    events[index]["eventType"] = eventType;
+   
+  if (typeof eventName !== 'undefined')
+    events[index]["eventName"] = eventName;
+
+  if (typeof eventDescription !== 'undefined')
+    events[index]["eventDescription"] = eventDescription;
+
+  if (typeof startTime !== 'undefined')
+    events[index]["startTime"] = startTime;
+
+  if (typeof endTime !== 'undefined')
+    events[index]["endTime"] = endTime;
+
+  if (typeof location !== 'undefined')
+    events[index]["location"] = location;
+
+  if (typeof status !== 'undefined')
+    events[index]["status"] = status;
+
+  if (typeof eventName !== 'undefined')
+    events[index]["ticketPrice"] = ticketPrice;
+*/
+
+  res.status(200).json({
+    success: true,
+    message: `Event is updated`,
+  });
 
 });
 
 
-app.delete("/api/v1/events:id", (req: Request, res: Response) => { 
+app.delete("/api/v1/eventlist", (req: Request, res: Response) => { 
   const id = parseInt(req.params.id);
 
   const index = events.findIndex(element => {element.id===id})
