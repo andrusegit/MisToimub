@@ -4,6 +4,7 @@ import express, { Request, Response, Express } from 'express';
 
 const app: Express = express();
 const port: number = 3000;
+app.use(express.json());
 
 interface INewEvent { // I näitab, et tegemist on interfacega
   organizer: string;
@@ -41,7 +42,9 @@ app.listen(port, () => {
   console.log(`App is running on port ${port}`);
 });
 
+
 app.get('/api/v1/eventlist', (req: Request, res: Response) => {
+  
   res.status(200).json({
     success: true,
     message: 'Ürituste nimekiri',
@@ -61,21 +64,20 @@ app.post("/api/v1/eventlist", (req: Request, res: Response) => {
     ticketPrice
   }  = req.body; // objekti destruktureerimine
   
-  const id = events[events.length -1].id + 1;
+  const id = events[events.length-1].id + 1;
 
   const newEvent: IEvent = {
     id: id,
-    organizer,
-    eventType,
-    eventName,
-    eventDescription,
-    startTime,
-    endTime,
-    location,
-    status,
-    ticketPrice
+    organizer: organizer,
+    eventType: eventType,
+    eventName: eventName,
+    eventDescription: typeof eventDescription !== 'undefined' ? eventDescription : "",
+    startTime: startTime,
+    endTime: typeof endTime !== 'undefined' ? endTime : "",
+    location: location,
+    status: typeof status !== 'undefined' ? status : 1,
+    ticketPrice: typeof ticketPrice !== 'undefined' ? ticketPrice : 0
   };
-
 
   events.push(newEvent);
 
