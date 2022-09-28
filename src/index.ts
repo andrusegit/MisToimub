@@ -144,12 +144,10 @@ app.put("/api/v1/eventlist/:id", (req: Request, res: Response) => {
     });
   }
   else {
-    if (index < 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Event not found",
-      });
-    }
+    return res.status(404).json({
+      success: false,
+      message: "Event not found",
+    });
   }
 });
 
