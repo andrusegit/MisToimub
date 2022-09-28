@@ -12,7 +12,17 @@ pakkuda ülevaadet linnas toimuva kohta. Samuti saaks seda oma kodulehel kasutad
 Selleks, et see tarkvara töötaks on vaja GitHubis olevale paketile vajalik tarkvada, mille leond
 ja installerimiseks vajalikud käsud on järgmised:
 
-Arvutisse peab olema paigaldatud node.js (testitud on versioonil 18.8.0)
+API kasutamisel tuleb käituda järgmiselt:
+Nimekirja saab kätte GET päringuga JSON formaadis - hetkel parameetreid päringule ei ole ning
+väljastakse terve nimekiri
+Kustutamiseks kasutada DELETE päringut ning kirje id tuleb lisada URL-ile peale kaldkriipsu "/"
+Kirje muutmiseks tuleb kasutada PUT päringut, kirje id tuleb lisada URL-ile peale kaldkriipsu "/"
+ja muudetavad väljad lisada päringu kehasse JSON kujul. Kirjeldada on vaja vaid muudetavad väljad
+Kirje lisamiseks tuleb kasutada POST päringut. Lisatavad andmed tuleb kirjeldada päringu kehas JSON
+kujul ning kirjeldatud peavad olema kohustuslikud väljad: organizer, eventType, eventName, startTime, 
+location.
+
+Tarkvara kasutamiseks peab rvutisse olema paigaldatud node.js (testitud on versioonil 18.8.0)
 typescript - paigaldamiseks npm install typescript
 typescripti tüübidefinitsioonid - paigaldamiseks npm install @types/node --save-dev
 nodemon - paigaldamiseks npm install --save-dev ts-node nodemon

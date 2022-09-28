@@ -34,14 +34,18 @@ const events: IEvent[] = [
     status: 1, 
     ticketPrice: 5.00 
   },
+  { id : 2,
+    organizer: "SEE Teater",
+    eventType: "Teater", 
+    eventName: "Kapsapea",
+    eventDescription: "Oskar Lutsu kapsapea",
+    startTime: "27.09.2022 17:00",
+    endTime: "",
+    location: "SEE Teater",
+    status: 1, 
+    ticketPrice: 5.00 
+  },
 ];
-
-
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`App is running on port ${port}`);
-});
-
 
 app.get('/api/v1/eventlist', (req: Request, res: Response) => {
   
@@ -88,12 +92,11 @@ app.post("/api/v1/eventlist", (req: Request, res: Response) => {
 
 });
 
-app.put("/api/v1/eventlist", (req: Request, res: Response) => { 
+app.put("/api/v1/eventlist/:id", (req: Request, res: Response) => { 
 
+  const id = parseInt(req.params.id);
 
-  
   const {
-    idx,
     organizer,
     eventType,
     eventName,
@@ -105,68 +108,78 @@ app.put("/api/v1/eventlist", (req: Request, res: Response) => {
     ticketPrice
   }  = req.body; 
   
-  const index = events.findIndex(element => {element.id===idx})
+  const index = events.findIndex(element => {return element.id===id ? true : false});
 
-  console.log(index);
-  console.log(idx);
-  //console.log(events[index]["organizer"]);
-
-  /*
-  if (typeof organizer !== 'undefined')
-    events[index]["organizer"] = organizer;
+  if (index > -1) {
+    if (typeof organizer !== 'undefined')
+      events[index]["organizer"] = organizer;
   
-  if (typeof eventType !== 'undefined')
-    events[index]["eventType"] = eventType;
+    if (typeof eventType !== 'undefined')
+      events[index]["eventType"] = eventType;
    
-  if (typeof eventName !== 'undefined')
-    events[index]["eventName"] = eventName;
+    if (typeof eventName !== 'undefined')
+      events[index]["eventName"] = eventName;
 
-  if (typeof eventDescription !== 'undefined')
-    events[index]["eventDescription"] = eventDescription;
+    if (typeof eventDescription !== 'undefined')
+      events[index]["eventDescription"] = eventDescription;
 
-  if (typeof startTime !== 'undefined')
-    events[index]["startTime"] = startTime;
+    if (typeof startTime !== 'undefined')
+      events[index]["startTime"] = startTime;
 
-  if (typeof endTime !== 'undefined')
-    events[index]["endTime"] = endTime;
+    if (typeof endTime !== 'undefined')
+      events[index]["endTime"] = endTime;
 
-  if (typeof location !== 'undefined')
-    events[index]["location"] = location;
+    if (typeof location !== 'undefined')
+      events[index]["location"] = location;
 
-  if (typeof status !== 'undefined')
-    events[index]["status"] = status;
+    if (typeof status !== 'undefined')
+      events[index]["status"] = status;
 
-  if (typeof eventName !== 'undefined')
-    events[index]["ticketPrice"] = ticketPrice;
-*/
+    if (typeof eventName !== 'undefined')
+      events[index]["ticketPrice"] = ticketPrice;
 
-  res.status(200).json({
-    success: true,
-    message: `Event is updated`,
-  });
-
-});
-
-
-app.delete("/api/v1/eventlist", (req: Request, res: Response) => { 
-  const id = parseInt(req.params.id);
-
-  const index = events.findIndex(element => {element.id===id})
-
-  if (!index) {
-      return res.status(404).json({
-      success: false,
-      message: "Event not found",
+    res.status(200).json({
+      success: true,
+      message: `Event is updated`,
     });
   }
+  else {
+    if (index < 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found",
+      });
+    }
+  }
+});
 
-  events.splice(index, 1); 
+app.delete("/api/v1/eventlist/:id", (req: Request, res: Response) => { 
+  const id = parseInt(req.params.id);
+  
+  const index = events.findIndex(element => {return element.id===id ? true : false});
+
+  if (index > -1) {
+    events.splice(index, 1); 
   
     return res.status(200).json({
       success: true,
       message: `Event deleted`,
     });
+
+  }
+  else {
+    return res.status(404).json({
+      success: false,
+      message: "Event not found",
+    });
+  }
 });
 
+
+
+app.listen(port, () => {
+  // eslint-disable-next-line no-console
+  console.log(`App is running on port ${port}`);
+});
 
 
