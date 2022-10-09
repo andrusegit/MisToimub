@@ -1,0 +1,11 @@
+  {
+    "eventType": "Sõda",
+    "eventName": "Ukraina sõda",
+    "description": "Suur wõimas plachvatus",
+    "startDate" : "2022-10-08",
+    "startTime": "06:20",
+    "location": "Krimmi sild";
+    "status": 1,
+    "ticketPrice": 0,
+    "ticketSale": 0;
+}
