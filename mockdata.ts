@@ -1,6 +1,7 @@
 
 import { IEvent } from "./src/components/events/interfaces";
 import { IUser } from "./src/components/users/interfaces";
+import { IPlace } from "./src/components/places/interfaces";
 
 const events: IEvent[] = [
   { id : 1,
@@ -86,6 +87,21 @@ const user : IUser[] = [
 
 ];
 
+const place : IPlace[] = [
+  {
+    id: 0,
+    name: "Andrus",
+    address: "Posti 3, Haapsalu"
+  },
+  
+  {
+    id: 1,
+    name: "Arabella",
+    address: "Vaba 10, Haapsalu"
+  },
+
+];
 
 
-export {events, user};
+
+export {events, user, place};

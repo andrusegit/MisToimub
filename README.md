@@ -59,13 +59,25 @@ ticketSale: string; // kus pileteid müüakse (Väravas või URL veebilehele)
 }
 
 
-Kasutajate halduseks on järgmised päringud
+Kasutajate halduseks on järgmised päringud:
 GET '/api/v1/user' kasutaja andmete küsimiseks
 PUT '/api/v1/user' kasutaja lisamiseks
 POST '/api/v1/user' kasutaja andmete muutmiseks
 DELETE '/api/v1/user/:id' kasutaja kustutamiseks (:id asendada kasutaja id-ga)
 
-kõik vastused tagastatakse JSON vormingus
+Asukohtade halduseks on järgmised päringud:
+GET '/api/v1/place' asukoha andmete küsimiseks
+PUT '/api/v1/place' asukoha lisamiseks
+POST '/api/v1/place' asukoha andmete muutmiseks
+DELETE '/api/v1/place/:id' asukoha kustutamiseks (:id asendada kasutaja id-ga)
+
+
+kõik vastused tagastatakse JSON vormingus ning päringuvastus koosneb lisaks andmetele päisest:
+
+  "success": true,
+  "message": "List of events",
+
+ning seejärel tagastatava ressursi nimi ning andmed.  
 
 
 Tarkvara kasutamiseks peab rvutisse olema paigaldatud node.js (testitud on versioonil 18.8.0)
