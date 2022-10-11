@@ -5,7 +5,7 @@ interface INewEvent { // I näitab, et tegemist on interfacega
   description: string;
   startDate : string;
   startTime: string; // format dd/mm/yyyy HH:mm
-  location: string;
+  place: string;
   status: number; //0 still in planning, 1 advertise
   ticketPrice: number; //0 if free entrance
   ticketSale: string; // at the gate and/or link

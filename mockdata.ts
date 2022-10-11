@@ -10,7 +10,7 @@ const events: IEvent[] = [
     description: "Filmi Top Gun: Maverick (2022) esilinastus",
     startDate: "2022-09-27",
     startTime: "17:00",
-    location: "Haapsalu Kultuurikeskus",
+    place: "Kultuurimaja",
     status: 1, 
     ticketPrice: 5.00,
     ticketSale : "Väravas" 
@@ -23,7 +23,7 @@ const events: IEvent[] = [
     description: "Oskar Lutsu kapsapea",
     startDate: "2022-09-27",
     startTime: "17:00",
-    location: "SEE Teater",
+    place: "SEE Teater",
     status: 1, 
     ticketPrice: 5.00,
     ticketSale: "Väravas"
@@ -36,7 +36,7 @@ const events: IEvent[] = [
       description: "Bluusifestival",
       startDate: "2022-08-27",
       startTime: "17:00",
-      location: "Haapsalu Kultuurikeskus",
+      place: "Kultuurimaja",
       status: 0, 
       ticketPrice: 50.00,
       ticketSale: "Väravas" 
@@ -49,7 +49,7 @@ const events: IEvent[] = [
       description: "Bluusifestival",
       startDate: "2022-08-28",
       startTime: "11:00",
-      location: "Haapsalu Kultuurikeskus",
+      place: "Kultuurimaja",
       status: 0, 
       ticketPrice: 50.00,
       ticketSale: "Väravas" 
@@ -62,8 +62,8 @@ const events: IEvent[] = [
       description: "Bluusifestival",
       startDate: "2022-08-29",
       startTime: "11:00",
-      location: "Haapsalu Kultuurikeskus",
-      status: 0, 
+      place: "Kultuurimaja",
+      status: 1, 
       ticketPrice: 50.00,
       ticketSale: "Väravas" 
     },

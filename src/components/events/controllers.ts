@@ -16,6 +16,9 @@ const EventControllers = {
 
     if (req.query.dateTo)
       params.dateTo = req.query.dateTo;
+
+    if (req.query.place)
+      params.place = req.query.place;
     
     const eventList : IEvent[] = EventServices.getEventList(params);
     res.status(ResponseCodes.success).json({
@@ -34,7 +37,10 @@ const EventControllers = {
     if (req.query.dateTo)
       params.dateTo = req.query.dateTo;
     
-    const eventList : IEvent[] = EventServices.getEventListShort(params);
+    if (req.query.place)
+      params.place = req.query.place;
+
+      const eventList : IEvent[] = EventServices.getEventListShort(params);
     res.status(ResponseCodes.success).json({
       success: true,
       message: 'List of events',
@@ -73,7 +79,7 @@ const EventControllers = {
 
     const {
       eventType, eventName, description,
-      startDate, startTime, location,
+      startDate, startTime, place,
       status, ticketPrice, ticketSale
     } = req.body;
     
@@ -85,7 +91,7 @@ const EventControllers = {
       description: description,
       startDate: startDate,
       startTime: startTime,
-      location: location,
+      place: place,
       status: status,
       ticketPrice: ticketPrice,
       ticketSale: ticketSale
@@ -111,7 +117,7 @@ const EventControllers = {
     const {
       id, userId, 
       eventType, eventName, description,
-      startDate, startTime, location,
+      startDate, startTime, place,
       status, ticketPrice, ticketSale
     } = req.body;
   
@@ -123,7 +129,7 @@ const EventControllers = {
       description: description,
       startDate: startDate,
       startTime: startTime,
-      location: location,
+      place: place,
       status: status,
       ticketPrice: ticketPrice,
       ticketSale: ticketSale

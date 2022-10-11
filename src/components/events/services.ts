@@ -2,16 +2,25 @@
   import {events} from "../../../mockdata"
 
 
+  const NOTFOUND : number = -1,
+  MINDATE: string = "0000-01-01",
+  MAXDATE: string = "9999-12-31" 
+
+
 
   const EventServices = {
-    getEventList: ({eventStatus = EventStatus.takingPlace, dateFrom = "0000-12-31", dateTo = "9999-12-31"} = {}) : IEvent[] => {
+    
+    getEventList: ({eventStatus = EventStatus.takingPlace,
+       dateFrom = MINDATE, dateTo = MAXDATE, 
+        place = ''} = {}) : IEvent[] => {
       
       let result : any = [];
 
       events.forEach(element => {
         if (element.status >= eventStatus 
             && element.startDate >= dateFrom 
-            && element.startDate <= dateTo) {
+            && element.startDate <= dateTo
+            && (place =='' || element.place == place)) {
 
           result.push({
             eventType: element.eventType, 
@@ -19,7 +28,7 @@
             description: element.description,
             startDate : element.startDate,
             startTime: element.startTime, 
-            location: element.location,
+            place: element.place,
             ticketPrice: element.ticketPrice, 
             ticketSale: element.ticketSale 
           });
@@ -29,16 +38,19 @@
       return result;
     },
 
-    getEventListShort: ({dateFrom = "0000-12-31", dateTo = "9999-12-31"} = {}) : IEvent[] => {
+    getEventListShort: ({dateFrom = MINDATE, dateTo = MAXDATE, place = ''} = {}) : IEvent[] => {
       
       let result : any = [];
 
       events.forEach(element => {
+        
         if (element.status >= EventStatus.takingPlace 
             && element.startDate >= dateFrom 
-            && element.startDate <= dateTo) {
+            && element.startDate <= dateTo
+            && (place =='' || element.place == place)) {
 
           result.push({
+            place: element.place,
             eventName: element.eventName,
             startDate : element.startDate,
             startTime: element.startTime, 
@@ -49,7 +61,7 @@
       return result;
     },
 
-    getUserEventList: ({userId = -1, dateFrom = "0000-12-31", dateTo = "9999-12-31"} = {}) => {
+    getUserEventList: ({userId = -1, dateFrom = MINDATE, dateTo = MAXDATE} = {}) => {
       console.log(userId);
 
       return events.filter((element) => {
@@ -60,7 +72,7 @@
     },
 
     addEvent(newEvent: IEvent) {
-      let maxId = -1;
+      let maxId = NOTFOUND;
 
       events.forEach((element) => {
         if(element.id > maxId)
@@ -78,27 +90,28 @@
 
     updateEvent(eventToUpdate : IEvent) {
       
-      let index = -1;
+      let index = NOTFOUND;
+
       events.forEach((element, i)  => {
         if (element.id == eventToUpdate.id)
           index = i;
       });
 
-      if (index > -1 && events[index].userId == eventToUpdate.userId) 
+      if (index > NOTFOUND && events[index].userId == eventToUpdate.userId) 
         events[index] = eventToUpdate;
       
         return index;
     },
 
     deleteEvent(id: number, userId: number) {
-      let index = -1;
+      let index = NOTFOUND;
 
       events.forEach((element, i)  => {
         if (element.id == id)
           index = i;
       });
 
-      if (index > -1 && events[index].userId == userId)
+      if (index > NOTFOUND && events[index].userId == userId)
         events.splice(index, 1);   
       
       return index;

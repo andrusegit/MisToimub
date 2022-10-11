@@ -24,6 +24,9 @@ Mõlema päringu puhul kuvatakse vaikimisi toimuvad üritused (status=1), ning e
 Selleks, et näha planeeritavaid, tuleb URL'ile lisada GET päringu parameeter status=0
 Samuti saab täpsustada ajavahemiku alates kuupäevast dateFrom ning kuni kuupäevani dateTo parameetriga. Ükski parameetritest ei ole kohustuslik ning nende puudumisel kasutatakse vaikimisi
 väärtusi. Kuupäev peab olema formaadis 'yyyy-mm.dd'
+Lisaks on võimalik küsida nimekirja sündmuskoha kohta. Selleks saab päringule lisada parameetri place.
+Näiteks võiks päring välja näha järgmine:
+'/api/v1/eventlist/short?id=0&datefrom=2022-10-11&place=Kultuurimaja'
 
 Registreeritud kasutaja saab vaadata enda poolt sisestatud sündmuseid GET päringuga
 '/api/v1/usereventlist/', millele tuleb peale kaldkriipsu lisada kasutaja Id.
