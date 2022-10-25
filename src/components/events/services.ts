@@ -72,47 +72,48 @@
     },
 
     addEvent(newEvent: IEvent) {
-      let maxId = NOTFOUND;
+      let newId = NOTFOUND;
 
       events.forEach((element) => {
-        if(element.id > maxId)
-          maxId = element.id;
+        Math.max(newId, element.id)
       });
     
-      let id = maxId + 1;
+      newId++;
 
-      newEvent.id = id;
-      
+      newEvent.id = newId;
       events.push(newEvent);
 
-      return id;
+      return newId;
     },
 
     updateEvent(eventToUpdate : IEvent) {
       
-      let index = NOTFOUND;
-
-      events.forEach((element, i)  => {
-        if (element.id == eventToUpdate.id)
-          index = i;
+      const index = events.findIndex((element)  => {
+        element.id == eventToUpdate.id
       });
 
       if (index > NOTFOUND && events[index].userId == eventToUpdate.userId) 
         events[index] = eventToUpdate;
       
-        return index;
+        return index; 
     },
 
     deleteEvent(id: number, userId: number) {
-      let index = NOTFOUND;
-
-      events.forEach((element, i)  => {
-        if (element.id == id)
-          index = i;
+      
+      const index = events.findIndex((element)  => {
+        element.id == id
       });
 
       if (index > NOTFOUND && events[index].userId == userId)
         events.splice(index, 1);   
+      
+      return index;
+    },
+
+    findEventById: (id: number) => {
+      const index = events.findIndex((element) => {
+        element.id == id
+      })
       
       return index;
     }

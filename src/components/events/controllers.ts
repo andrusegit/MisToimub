@@ -75,7 +75,7 @@ const EventControllers = {
 
   addEvent: (req: Request, res: Response) => {
  
-    let userId = parseInt(req.params.userid);
+    let userId = res.locals.user.id;
 
     const {
       eventType, eventName, description,

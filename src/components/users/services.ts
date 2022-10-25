@@ -1,56 +1,73 @@
 import { IUser } from "./interfaces"
-import { user } from "../../../mockdata"
+import { users } from "../../../mockdata"
+
+const NOTFOUND = -1;
 
 const UserServices = {
   getUserList: () : IUser[] => {
-    return user;
+    return users;
   },
 
   addUser: (newUser: IUser) => {
-    let maxId = -1;
+    let newId = -1; // if no records, then next id will be 0
 
-    user.forEach((element) => {
-      if(element.id > maxId)
-        maxId = element.id;
+    users.forEach((element) => {
+      newId = Math.max(newId, element.id);
     });
   
-    let id = maxId + 1;
+    newId++;
+    users.push(newUser);
 
-    newUser.id = id;
-    
-    user.push(newUser);
-
-    return id;
+    return newId;
   },
 
   updateUser: (userData : IUser) => {
-      
-    let index = -1;
-    user.forEach((element, i)  => {
-      if (element.id == userData.id)
-        index = i;
-    });
-
-    if (index > -1) 
-      user[index] = userData;
     
-      return index;
+    const index = users.findIndex((element) => {
+      return element.id == userData.id
+    });
+ 
+    if (index > NOTFOUND) 
+      users[index] = userData;
+    
+    return index;
   },
 
   deleteUser: (userId: number) => {
-    let index = -1;
-    user.forEach((element, i) => {
-      if(element.id == userId)
-        index = i; 
+    const index = users.findIndex((element) => {
+        return element.id == userId;
     });
 
-    if (index > -1)
-      user.splice(index, 1);
+    if (index > NOTFOUND)
+      users.splice(index, 1);
     
     return index;
-
   },
 
+  findUserByEmail: (email: string): IUser | undefined => {
+
+    const userData: IUser | undefined = users.find((element) => { return element.email == email; });
+    return userData;
+  },
+
+  findUserById: (id: number): number => {
+
+    const index = users.findIndex((element) => {
+      return element.id == id
+    })
+    
+    return index;
+  },
+
+  isUserExists: (id: number): boolean => {
+    
+    if (UserServices.findUserById(id) != NOTFOUND)
+      return true;
+    else
+      return false;
+  },
+
+    
 };
 
 export default UserServices;

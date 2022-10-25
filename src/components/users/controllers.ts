@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import ResponseCodes from "../../general.ts/responseCodes";
 import { IUser } from "./interfaces";
 import UserServices from "./services";
+import authServices from "../authentication/services";
+import authControllers from "../authentication/controller";
 
 
 const UserControllers = {
@@ -17,17 +19,20 @@ const UserControllers = {
     }); 
   },
 
-  addUser: (req: Request, res: Response) => {
+  addUser: async (req: Request, res: Response) => {
  
     const {
      name, email, password
     } = req.body;
     
+    const passwordHash = await authServices.hash(password);
+
     const newUser: IUser = {
       id: -1,
       name: name,
       email : email,
-      password: password
+      password: passwordHash,
+      role: "User"
     }
     
     let result = UserServices.addUser(newUser);
@@ -45,17 +50,20 @@ const UserControllers = {
     }
   },
 
-  updateUser: (req: Request, res: Response) => {
+  updateUser: async (req: Request, res: Response) => {
     
     const {
-      id, name, email, password
+      id, name, email, password, role
      } = req.body;
   
+    const passwordHash = await authServices.hash(password);
+
     const userData: IUser = {
       id: id,
       name: name,
       email : email,
-      password: password
+      password: passwordHash,
+      role: role
     }
   
     let result = UserServices.updateUser(userData);

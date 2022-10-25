@@ -1,3 +1,5 @@
+# MisToimub
+
 MisToimub on õppeotstarbel loodud tarkvara ja seetõttu mitte tavapäraseks kasutamiseks
 
 Tarkvara eesmärgiks on luua serveri tarkvara linna ürituste kava haldamiseks.
@@ -6,45 +8,69 @@ Kava on võimalik kasutada ka planeerimiseks, kuna sinna saab lisada ka üritusi
 veel välja kuulutatud, kuid on planeerimisel. See aitaks vältida sarnaste ürituste planeerimist
 samale ajale.
 
-Läbi API saavad selle kava lisada oma kodulehele ka näiteks hotellid, kes saavad oma külastajale
-pakkuda ülevaadet linnas toimuva kohta. Samuti saaks seda oma kodulehel kasutada turismiinfo.
+## API
 
-Selleks, et see tarkvara töötaks on vaja GitHubis olevale paketile vajalik tarkvara, mille leond
-ja installerimiseks vajalikud käsud on järgmised:
+Läbi API saavad selle kava lisada oma kodulehele ka näiteks hotellid, kes saavad oma külastajale pakkuda ülevaadet linnas toimuva kohta. Samuti saaks seda oma kodulehel kasutada turismiinfo.
+
+### Autentimine
+Mõned API tegevused on saadaval vaid kasutajale, kes on eelnevalt ennast autentinud. Selleks tuleb saata POST päring URL'ile `/api/v1/login` järgmise sisuga:
+
+```
+{
+  "email": "kasutaja.email@domain.ee",
+  "password": "kasutajaparool"
+}
+```
+
+Kui vastavad email ja parool andmebaasist leitakse, siis tagastatakse sõnum:
+```
+{
+  "success": true,
+  "message": "token",
+  "token": "tokeni sisu"
+}
+```
+Selleks, et kasutada päringuid, mis nõuavad autentimist, tuleb tokeni sisu lisada päringu Auth Bearer osasse.
+
+Mõnede tegevuste puhul (näiteks kohtade lisamine, muutmine ja kustutamine) on olulised ka kasutajaõigused, mis antakse kasutajatele lehe haldaja poolt.
 
 API kasutamisel tuleb käituda järgmiselt:
 
-Ürituste nimekirja GET päringu URL:
-'/api/v1/eventlist'
+Ürituste nimekirja GET päringu URL:  
+`/api/v1/events`
 
-Lühem nimekiri:
-'/api/v1/eventlist/short'
+Lühem nimekiri:  
+`/api/v1/events/short`
 
 Mõlema päringu puhul kuvatakse vaikimisi toimuvad üritused (status=1), ning ei kuvata planeerimisel olevaid (status=0).
 Selleks, et näha planeeritavaid, tuleb URL'ile lisada GET päringu parameeter status=0
 Samuti saab täpsustada ajavahemiku alates kuupäevast dateFrom ning kuni kuupäevani dateTo parameetriga. Ükski parameetritest ei ole kohustuslik ning nende puudumisel kasutatakse vaikimisi
 väärtusi. Kuupäev peab olema formaadis 'yyyy-mm.dd'
 Lisaks on võimalik küsida nimekirja sündmuskoha kohta. Selleks saab päringule lisada parameetri place.
-Näiteks võiks päring välja näha järgmine:
-'/api/v1/eventlist/short?id=0&datefrom=2022-10-11&place=Kultuurimaja'
+Näiteks võiks päring välja näha järgmine:  
+`/api/v1/events/short?id=0&datefrom=2022-10-11&place=Kultuurimaja`
 
-Registreeritud kasutaja saab vaadata enda poolt sisestatud sündmuseid GET päringuga
-'/api/v1/usereventlist/', millele tuleb peale kaldkriipsu lisada kasutaja Id.
+Ühe konkreetse kasutaja sündmusi saab vaadata GET päringuga  
+`/api/v1/events/`, millele tuleb peale kaldkriipsu lisada kasutaja Id.
 
-Registreeritud kasutajad saavad uusi sündmusi lisada PUT päringuga:
-'/api/v1/usereventlist/', peale kaldkriipsu tuleb lisada kasutaja Id
+Sisse loginud kasutajad saavad uusi sündmusi lisada PUT päringuga:
+`/api/v1/events/`. 
+
+Muutmiseks ja kustutamiseks peab olema sisse loginud ja sündmuse ja kasutaja id peab olema sama. 
 
 Muuta saab päringut POST päringuga, milles peavad olema kirjeldatud kõik vajalikud väljad.
-Muudetakse seda kirjet, mille Id on saadetavas päringus.
-'/api/v1/usereventlist'
+Muudetakse seda kirjet, mille Id on saadetavas päringus.  
+`/api/v1/events`
 
 Sündmuse kustutamiseks kasutada DELETE käsku
-'/api/v1/usereventlist/, millele peale kaldkriipsu lisada kasutaja id, millele omakorda peale kaldriipsu lisada sündmuse id.
+`/api/v1/event/`, millele peale kaldkriipsu lisada kasutaja id, millele omakorda peale kaldriipsu lisada sündmuse id.
 
 
 Sündmuste kirjel kohustuslikud kõikd väljad, välja arvatud need, mille taga on eraldi kommentaar.
 Kirje struktuur on järgmine (väljanimi: andmetüüp):
 
+```
+{
 id: // kohustuslik vaid kirje muutmisel
 userId: number // kohustuslik kirje muutmisel, muul juhul mitte
 eventType: string; //Teater, Kino, Festival, Kontsert, Muu
@@ -57,33 +83,42 @@ status: number; //0 üritus on planeerimisel, 1 üritus toimub
 ticketPrice: number; //pileti hind, kui tasuta siis 0
 ticketSale: string; // kus pileteid müüakse (Väravas või URL veebilehele)
 }
+```
 
+Kasutajate halduseks on järgmised päringud:  
+`GET /api/v1/users` kasutaja andmete küsimiseks  
+`PUT /api/v1/users` kasutaja lisamiseks  
+`POST /api/v1/users` kasutaja andmete muutmiseks  
+`DELETE /api/v1/users/:id` kasutaja kustutamiseks (:id asendada kasutaja id-ga)
+Kasutajat saab lisada ilma sisse logimata, kuid ülejäänud tegevused nõuavad sisselogimist ning administraatori õigusi.
 
-Kasutajate halduseks on järgmised päringud:
-GET '/api/v1/user' kasutaja andmete küsimiseks
-PUT '/api/v1/user' kasutaja lisamiseks
-POST '/api/v1/user' kasutaja andmete muutmiseks
-DELETE '/api/v1/user/:id' kasutaja kustutamiseks (:id asendada kasutaja id-ga)
 
 Asukohtade halduseks on järgmised päringud:
-GET '/api/v1/place' asukoha andmete küsimiseks
-PUT '/api/v1/place' asukoha lisamiseks
-POST '/api/v1/place' asukoha andmete muutmiseks
-DELETE '/api/v1/place/:id' asukoha kustutamiseks (:id asendada kasutaja id-ga)
-
+`GET /api/v1/places` asukoha andmete küsimiseks  
+`PUT /api/v1/places` asukoha lisamiseks  
+`POST /api/v1/places` asukoha andmete muutmiseks  
+`DELETE /api/v1/places/:id` asukoha kustutamiseks (:id asendada kasutaja id-ga)
+Kohtade muutmine eeldab administraatoriõigusi.
 
 kõik vastused tagastatakse JSON vormingus ning päringuvastus koosneb lisaks andmetele päisest:
 
+```
+{
   "success": true,
   "message": "List of events",
+}
+```
 
 ning seejärel tagastatava ressursi nimi ning andmed.  
 
 
-Tarkvara kasutamiseks peab rvutisse olema paigaldatud node.js (testitud on versioonil 18.8.0)
-typescript - paigaldamiseks npm install typescript
-typescripti tüübidefinitsioonid - paigaldamiseks npm install @types/node --save-dev
-nodemon - paigaldamiseks npm install --save-dev ts-node nodemon
+## Kasutamiseks vajalik tarkvara
+Selleks, et see tarkvara töötaks on vaja GitHubis olevale paketile lisaks  tarkvara, mille leond ja installerimiseks vajalikud käsud on järgmised:
 
-
+- **node.js** Tarkvara kasutamiseks peab rvutisse olema paigaldatud node.js (testitud on versioonil 18.8.0)
+- **typescript** - paigaldamiseks npm install typescript
+typescripti tüübidefinitsioonid - paigaldamiseks `npm install @types/node --save-dev`
+- **nodemon** - paigaldamiseks `npm install --save-dev ts-node nodemon`
+- **bcrypt** - paigaldamiseks `npm install @types/bcrypt`
+- **jonewebtoken** - paigaldamiseks `npm install jsonwebtoken @types/jsonwebtoken`
 

@@ -70,19 +70,21 @@ const events: IEvent[] = [
     },
 ];
 
-const user : IUser[] = [
+const users : IUser[] = [
   {
     id: 0,
     name: "Andrus",
     email: "andrusky@tlu.ee",
-    password: "dontellya"
+    password: "$2b$10$C1WGh2BJeooQsWicE4w.N.LAMlRmpz7oVqpKkfHG1PDSPf0P0tlYi",
+    role: "Admin"
   },
   
   {
     id: 1,
     name: "Arabella",
     email: "arabella@tlu.ee",
-    password: "dontellya"
+    password: "$2b$10$9IMWluQhsHwsce01K7ltbeba1dFYauIDT6aX1ExZDsLogtpjakxNi", //"dontellya"
+    role: "User"
   },
 
 ];
@@ -104,4 +106,4 @@ const place : IPlace[] = [
 
 
 
-export {events, user, place};
+export {events, users, place};
