@@ -1,19 +1,28 @@
-interface INewEvent { // I näitab, et tegemist on interfacega
-  userId: number;
-  eventType: string; //valid Teater, Kino, Festival, Kontsert, Muu
-  eventName: string;
-  description: string;
-  startDate : string;
-  startTime: string; // format dd/mm/yyyy HH:mm
-  place: string;
-  status: number; //0 still in planning, 1 advertise
-  ticketPrice: number; //0 if free entrance
-  ticketSale: string; // at the gate and/or link
+import { RowDataPacket } from 'mysql2';
+
+interface INewEvent {
+organizationID: number;
+eventTypeID: number;
+eventName: string;
+description: string;
+startTime: string;
+placeID: number;
+placeDescription: string;
+statusID: number,
+ticketPrice: number;
+ticketSaleOnLine: string;
+ticketSaleAtDoor: string;
 }
 
 interface IEvent extends INewEvent {
-  id: number;
+  ID: number;
 }
+
+interface IEventSQL extends IEvent, RowDataPacket {
+  deleteDate: string;
+}
+
+
 
 interface IProgram {
   userId: string;
@@ -29,4 +38,4 @@ const EventStatus = {
   takingPlace: 1
 }
 
-export {INewEvent, IEvent, EventStatus}
+export {INewEvent, IEvent, IEventSQL, EventStatus}

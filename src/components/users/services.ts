@@ -1,73 +1,132 @@
-import { IUser } from "./interfaces"
-import { users } from "../../../mockdata"
+import authServices from "../authentication/services";
+import { INewUser, IUser, IUserSQL } from "./interfaces"
+import pool from '../../database';
+import { FieldPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
 
-const NOTFOUND = -1;
 
 const UserServices = {
-  getUserList: () : IUser[] => {
-    return users;
-  },
-
-  addUser: (newUser: IUser) => {
-    let newId = -1; // if no records, then next id will be 0
-
-    users.forEach((element) => {
-      newId = Math.max(newId, element.id);
-    });
-  
-    newId++;
-    users.push(newUser);
-
-    return newId;
-  },
-
-  updateUser: (userData : IUser) => {
+  getUserList: async () : Promise<IUser[]> => {
     
-    const index = users.findIndex((element) => {
-      return element.id == userData.id
-    });
+    let list : IUser[] = [];
+
+    try {
+      const [result]: [IUserSQL[], FieldPacket[]] = await pool.query('SELECT * FROM User');
+      list = result;
+    }
+    catch (err) {
+      console.log("getUserList: " + err);
+    }
+
+    return list;
+  },
+
+  addUser: async (newUser: INewUser) : Promise<number> => {
  
-    if (index > NOTFOUND) 
-      users[index] = userData;
-    
-    return index;
+    let json : any;
+    let insertId : number = 0;
+
+    const passwordHash = await authServices.hash(newUser.password);
+
+    const user: INewUser = {
+      name: newUser.name,
+      surname: newUser.surname,
+      email : newUser.email,
+      password: passwordHash,
+      admin: false,
+      organizationID: newUser.organizationID
+    }
+
+    try {
+      const result = await pool.query('INSERT INTO User SET ?', newUser);
+      json = result[0];
+      insertId = json.insertId;
+    }
+    catch (err) {
+      console.log("adduser: " + err);
+    }
+
+    return insertId;
+
   },
 
-  deleteUser: (userId: number) => {
-    const index = users.findIndex((element) => {
-        return element.id == userId;
-    });
-
-    if (index > NOTFOUND)
-      users.splice(index, 1);
+  updateUser: async (userData : IUser): Promise<number> => {
     
-    return index;
+    let json : any;
+    let changedRows : number = 0;
+
+    const passwordHash = await authServices.hash(userData.password);
+    const admin = false;
+
+    const user: IUser = {
+      ID: userData.ID,
+      name: userData.name,
+      surname: userData.surname,
+      email : userData.email,
+      password: passwordHash,
+      admin: admin,
+      organizationID: userData.organizationID
+    };
+    
+    try {
+      const result = await pool.query('UPDATE User SET ? WHERE ID=?', [user, user.ID]);
+      json = result[0];
+      changedRows = json.changedRows;
+    }
+    catch (err) {
+      console.log("updateUser: " + err);
+    }
+    return changedRows;
+
   },
 
-  findUserByEmail: (email: string): IUser | undefined => {
+  deleteUser: async (userId: number) => {
 
-    const userData: IUser | undefined = users.find((element) => { return element.email == email; });
-    return userData;
+    let json : any;
+    let changedRows : number = 0;
+
+    try {
+      const result = await pool.query('UPDATE User SET deleteDate=? WHERE id=?;', [new Date(), userId]);
+      json = result;
+      changedRows = json.changedRows;
+    }
+    catch (err) {
+      console.log("deleteUser:" + err);
+    }
+    return changedRows;
   },
 
-  findUserById: (id: number): number => {
+ 
+  findUserByEmail: async (email: string): Promise<IUserSQL | undefined> => {
 
-    const index = users.findIndex((element) => {
-      return element.id == id
-    })
-    
-    return index;
+    let user : IUserSQL | undefined = undefined; 
+    try {
+      const [result]: [IUserSQL[], FieldPacket[]] = await pool.query('SELECT * FROM User WHERE deleteDate IS NULL AND email=?', [email]);
+      user = result[0];
+    }
+    catch (err) {
+      console.log("findUserByEmail: " + err);
+    }
+
+    return user;
   },
 
-  isUserExists: (id: number): boolean => {
-    
-    if (UserServices.findUserById(id) != NOTFOUND)
-      return true;
-    else
-      return false;
-  },
+  isUserExists: async (id: number): Promise<boolean> => {
+   
+    let userExists = false;
 
-    
+    try {
+      const [result]: [IUserSQL[], FieldPacket[]] = await pool.query('SELECT * FROM User WHERE deleteDate IS NULL AND ID=?', [id]);
+      if (result[0].length > 0)
+        userExists = true;
+      else
+        userExists = false;
+    }
+    catch (err) {
+      console.log("isUserExists: " + err);
+    }
+
+    return userExists;
+  },
 };
 
 export default UserServices;

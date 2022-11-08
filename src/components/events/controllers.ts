@@ -5,11 +5,14 @@ import EventServices from "./services";
 import EventsMiddlewares from "./middleware";
 
 const EventControllers = {
-  getEventList: (req: Request, res: Response) => {
+  getEventList: async (req: Request, res: Response) => {
     let params: {[key: string]: any} = {};
+
+    if (req.query.host)
+      params.organizationID = req.query.place;
 
     if (req.query.status)
-      params.eventStatus =  req.query.status;
+      params.statusID = req.query.status;
     
     if (req.query.dateFrom) 
       params.dateFrom = req.query.dateFrom;
@@ -17,10 +20,8 @@ const EventControllers = {
     if (req.query.dateTo)
       params.dateTo = req.query.dateTo;
 
-    if (req.query.place)
-      params.place = req.query.place;
+    const eventList : IEvent[] = await EventServices.getEventList(params);
     
-    const eventList : IEvent[] = EventServices.getEventList(params);
     res.status(ResponseCodes.success).json({
       success: true,
       message: 'List of events',
@@ -28,145 +29,125 @@ const EventControllers = {
     });    
   },
 
-  getEventListShort: (req: Request, res: Response) => {
-    let params: {[key: string]: any} = {};
 
-    if (req.query.dateFrom) 
-      params.dateFrom = req.query.dateFrom;
+  getEvent: async (req: Request, res: Response) => {
+    let id = parseInt(req.params.id);
 
-    if (req.query.dateTo)
-      params.dateTo = req.query.dateTo;
+    const event: IEvent | undefined = await EventServices.getEvent(id);
+
+    if (event != undefined) {
+      res.status(ResponseCodes.success).json({
+        success: true,
+        message: 'Selected event',
+        event
+      });
+    }
+    else {
+      res.status(ResponseCodes.badRequest).json({
+        success: false,
+        message: 'No such event',
+      });
+    }   
     
-    if (req.query.place)
-      params.place = req.query.place;
-
-      const eventList : IEvent[] = EventServices.getEventListShort(params);
-    res.status(ResponseCodes.success).json({
-      success: true,
-      message: 'List of events',
-      eventList
-    });    
   },
 
-  getUserEventList: (req: Request, res: Response) => {
-    let params: {[key: string]: any} = {};
-
-    if (req.params.userid)
-      params.userId = parseInt(req.params.userid);
-
-    if (req.query.dateFrom) 
-      params.dateFrom = req.query.dateFrom;
-
-    if (req.query.dateTo)
-      params.dateTo = req.query.dateTo;
-    
-    const eventList : IEvent[] = EventServices.getUserEventList(params);
-    res.status(ResponseCodes.success).json({
-      success: true,
-      message: 'List of events',
-      eventList
-    });    
-  },
-
-  getEvent: (req: Request, res: Response) => {
-
-  },
-
-
-  addEvent: (req: Request, res: Response) => {
+  addEvent: async (req: Request, res: Response) => {
  
     let userId = res.locals.user.id;
 
-    const {
-      eventType, eventName, description,
-      startDate, startTime, place,
-      status, ticketPrice, ticketSale
+    const {  
+      organizationID, eventTypeID, eventName,
+      description, startTime, placeID, placeDescription,
+      statusID,ticketPrice, ticketSaleOnLine,
+      ticketSaleAtDoor
     } = req.body;
     
-    const newEvent: IEvent = {
-      id: -1,
-      userId: userId,
-      eventType : eventType,
+    const newEvent: INewEvent = {
+      organizationID: organizationID,
+      eventTypeID: eventTypeID,
       eventName: eventName,
       description: description,
-      startDate: startDate,
       startTime: startTime,
-      place: place,
-      status: status,
+      placeID: placeID,
+      placeDescription: placeDescription,
+      statusID: statusID,
       ticketPrice: ticketPrice,
-      ticketSale: ticketSale
+      ticketSaleOnLine: ticketSaleOnLine,
+      ticketSaleAtDoor: ticketSaleAtDoor
     }
     
-    let result = EventServices.addEvent(newEvent);
-    if (result > -1) {
+    let insertId = await EventServices.addEvent(newEvent);
+
+    if (insertId > 0) {
       res.status(ResponseCodes.created).json({
         success: true,
         message: 'Event added to list'
-      }); 
+      });
     }
-    else{
+    else {
       res.status(ResponseCodes.badRequest).json({
-      success: false,
-      message: 'Event was not added'
-      }); 
-    }
+        success: false,
+        message: 'Something went wrong, event was not added'
+      })}
+
   },
 
-  updateEvent: (req: Request, res: Response) => {
+  updateEvent: async (req: Request, res: Response) => {
 
-    const {
-      id, userId, 
-      eventType, eventName, description,
-      startDate, startTime, place,
-      status, ticketPrice, ticketSale
+    const {  
+      ID,
+      organizationID, eventTypeID, eventName,
+      description, startTime, placeID, placeDescription,
+      statusID,ticketPrice, ticketSaleOnLine,
+      ticketSaleAtDoor
     } = req.body;
-  
-    const eventData: IEvent = {
-      id: id,
-      userId: userId,
-      eventType : eventType,
+    
+    const event: IEvent = {
+      ID: ID,
+      organizationID: organizationID,
+      eventTypeID: eventTypeID,
       eventName: eventName,
       description: description,
-      startDate: startDate,
       startTime: startTime,
-      place: place,
-      status: status,
+      placeID: placeID,
+      placeDescription: placeDescription,
+      statusID: statusID,
       ticketPrice: ticketPrice,
-      ticketSale: ticketSale
+      ticketSaleOnLine: ticketSaleOnLine,
+      ticketSaleAtDoor: ticketSaleAtDoor
     }
-  
-    let result = EventServices.updateEvent(eventData);
-    if (result > -1) {
+    
+    let changedRows = await EventServices.updateEvent(event);
+
+    if (changedRows > 0) {
       res.status(ResponseCodes.created).json({
         success: true,
         message: 'Event updated'
-      }); 
+      });
     }
-    else{
+    else {
       res.status(ResponseCodes.badRequest).json({
-      success: false,
-      message: 'Event was not updated'
-      }); 
-    }
+        success: false,
+        message: 'Something went wrong, event was not updated'
+      })}
   },
 
-  deleteEvent: (req: Request, res: Response) => {
-    let userId = parseInt(req.params.userid);
+  deleteEvent: async (req: Request, res: Response) => {
     let id = parseInt(req.params.id);
 
-    let result = EventServices.deleteEvent(id, userId);
+    let changedRows = await EventServices.deleteEvent(id);
 
-    if (result > -1) {
+    if (changedRows > 0) {
       res.status(ResponseCodes.success).json({
         success: true,
         message: 'Event deleted from list'
-        }); 
+      });
     }
-     else {
+    else {
       res.status(ResponseCodes.badRequest).json({
         success: false,
-        message: 'Event was not deleted'
-        }); 
+        message: 'Something went wrong, event was not updated'
+      });
     }
   },
 

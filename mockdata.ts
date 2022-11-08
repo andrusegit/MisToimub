@@ -3,6 +3,7 @@ import { IEvent } from "./src/components/events/interfaces";
 import { IUser } from "./src/components/users/interfaces";
 import { IPlace } from "./src/components/places/interfaces";
 
+/*
 const events: IEvent[] = [
   { id : 1,
     userId: 1,
@@ -89,6 +90,8 @@ const users : IUser[] = [
 
 ];
 
+*/
+
 const place : IPlace[] = [
   {
     id: 0,
@@ -106,4 +109,4 @@ const place : IPlace[] = [
 
 
 
-export {events, users, place};
+export {place};

@@ -46,9 +46,9 @@ Mõlema päringu puhul kuvatakse vaikimisi toimuvad üritused (status=1), ning e
 Selleks, et näha planeeritavaid, tuleb URL'ile lisada GET päringu parameeter status=0
 Samuti saab täpsustada ajavahemiku alates kuupäevast dateFrom ning kuni kuupäevani dateTo parameetriga. Ükski parameetritest ei ole kohustuslik ning nende puudumisel kasutatakse vaikimisi
 väärtusi. Kuupäev peab olema formaadis 'yyyy-mm.dd'
-Lisaks on võimalik küsida nimekirja sündmuskoha kohta. Selleks saab päringule lisada parameetri place.
+Lisaks on võimalik küsida nimekirja korraldaja kohta. Selleks saab päringule lisada parameetri host korraldaja ID-ga.
 Näiteks võiks päring välja näha järgmine:  
-`/api/v1/events/short?id=0&datefrom=2022-10-11&place=Kultuurimaja`
+`/api/v1/events/short?id=0&datefrom=2022-10-11&host=1`
 
 Ühe konkreetse kasutaja sündmusi saab vaadata GET päringuga  
 `/api/v1/events/`, millele tuleb peale kaldkriipsu lisada kasutaja Id.
@@ -119,6 +119,8 @@ Selleks, et see tarkvara töötaks on vaja GitHubis olevale paketile lisaks  tar
 - **typescript** - paigaldamiseks npm install typescript
 typescripti tüübidefinitsioonid - paigaldamiseks `npm install @types/node --save-dev`
 - **nodemon** - paigaldamiseks `npm install --save-dev ts-node nodemon`
+npm install -g node-gyp
 - **bcrypt** - paigaldamiseks `npm install @types/bcrypt`
+npm link bcrypt
 - **jonewebtoken** - paigaldamiseks `npm install jsonwebtoken @types/jsonwebtoken`
 

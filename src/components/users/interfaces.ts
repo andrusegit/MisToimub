@@ -1,9 +1,21 @@
-interface IUser {
-  id: number,
+
+import { RowDataPacket } from 'mysql2';
+
+interface INewUser {
   name: string,
+  surname: string,
   email: string,
   password: string,
-  role: "Admin" | "User"
+  admin: boolean,
+  organizationID: number
 };
 
-export { IUser };
+interface IUser extends INewUser {
+  ID: number
+}
+
+interface IUserSQL extends IUser, RowDataPacket {
+  deleteDate: string
+};
+
+export { IUserSQL, INewUser, IUser};
