@@ -1,0 +1,16 @@
+EventControllers.getEvent on tegemata. See oleks vajalik sündmuse muutmiseks (et täita kasutajaliideses vajalikud väljad)
+
+kliendipoolne JWT käsitlemine
+https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/
+https://www.section.io/engineering-education/how-to-setup-nodejs-express-for-react/
+
+
+docker run --name mistoimub -e MYSQL_ROOT_PASSWORD=mypass -p 3306:3306 -d docker.io/library/mariadb:10.3
+
+npm install --save mysql2
+
+
+
+
+https://stackoverflow.com/questions/62155984/node-mysql2-cant-access-update-results
+Pooli puhul said tegelikult tunnis lubatud ühendused otsa, kuna andmebaasi pool panin samuti 10

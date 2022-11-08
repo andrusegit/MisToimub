@@ -1,0 +1,148 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"MisToimub API",
+      "version":"1.0"
+    },
+    "servers": [
+      {"url":"localhost:3000"}
+    ],
+    "paths": {
+      "/api/v1/events": {
+        "get": {
+          "description": "Tagastab kõik planeeritud sündmused. Võimalik anda parameetreid GET muutujatega",
+          "parameters": [
+            {
+              "name": "host",
+              "in": "path",
+              "description": "Ürituse korraldaja ID",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "style": "simple"
+            },
+            {
+              "name": "dateFrom",
+              "in": "path",
+              "description": "Näita sündmusi alates kuupäevast",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "yyyy-mm-dd"
+              },
+              "style": "simple"
+            },
+            {
+              "name": "dateTo",
+              "in": "path",
+              "description": "Näita sündmusi kuni kuupäevani",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "yyyy-mm-dd"
+              },
+              "style": "simple"
+            },
+            {
+              "name": "status",
+              "in": "path",
+              "description": "Näitab kõiki sündmusi, kuid status=1",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "style": "simple"
+            }
+
+
+          ],
+          "responses": {
+            "200": {
+              "description": "Sündmuste nimekiri",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "string",
+                        "example": "success"
+                      },
+                      "message":{
+                        "type": "string",
+                        "example": "List of events"
+                      },
+                      "eventList": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "ID": {
+                              "description": "sündmuse ID",
+                              "type": "integer"
+                            },
+                            "organizationID": {
+                              "description": "Sündmuse korraldaja ID",
+                              "type": "integer"
+                            },
+                            "eventTypeID": {
+                              "description": "Sündmuse liigi ID",
+                              "type": "integer"
+                            },
+                            "eventName": {
+                              "description": "Sündmuse nimetus",
+                              "type": "string",
+                              "example": "Augustibluus"
+                            },
+                            "description": {
+                              "description": "Sündmuse kirjeldus",
+                              "type": "string"
+                            },
+                            "startTime": {
+                              "description": "Sündmuse toimumise aeg",
+                              "type": "string",
+                              "format": "yyyy-mm-dd hh:mm",
+                              "example": "2022-08-14 17:00"
+                            },
+                            "placeID": {
+                              "description": "Toimumise koha ID",
+                              "type": "integer"
+                            },
+                            "placeDescription": {
+                              "description": "Sündmuskoha täpsem kirjeldus",
+                              "type": "string" 
+                            },
+                            "statusID": {
+                              "description": "Sündmuse planeerimise staatus - 1 planeerimisel 2 toimub",
+                              "type": "integer"
+                            },
+                            "ticketPrice": {
+                              "description": "Pileti hind",
+                              "type": "number",
+                              "example": 15.00
+                            },
+                            "ticetSaleOnLIne": {
+                              "description": "Interneti piletimüügi URL",
+                              "type": "string"
+                            },
+                            "ticketSaleAtDoor": {
+                              "description": "Kas piletimüük toimub ka kohapeal",
+                              "type": "boolean"
+                            }
+                          }
+                        }
+
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
