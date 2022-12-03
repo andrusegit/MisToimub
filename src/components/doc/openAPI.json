@@ -1,0 +1,1108 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"MisToimub API",
+      "version":"1.0"
+    },
+    "servers": [
+      {"url":"localhost:3000"}
+    ],
+    "components": {
+      "securitySchemes": {
+        "bearer": {
+          "type": "http",
+          "description": "Ainult JWT token",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    },
+    "paths": {
+      "/api/v1/eventlist": {
+        "get": {
+          "description": "Tagastab kõik planeeritud sündmused. Võimalik anda parameetreid GET muutujatega",
+          "parameters": [
+            {
+              "name": "dateFrom",
+              "in": "path",
+              "description": "Näita sündmusi alates kuupäevast",
+              "schema": {
+                "type": "string",
+                "format": "yyyy-mm-dd"
+              },
+              "style": "simple"
+            },
+            {
+              "name": "dateTo",
+              "in": "path",
+              "description": "Näita sündmusi kuni kuupäevani",
+              "schema": {
+                "type": "string",
+                "format": "yyyy-mm-dd"
+              },
+              "style": "simple"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Sündmuste nimekiri",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "string",
+                        "example": "success"
+                      },
+                      "message":{
+                        "type": "string",
+                        "example": "List of events"
+                      },
+                      "eventList": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "organizationID": {
+                              "description": "Sündmuse korraldaja ID",
+                              "type": "integer"
+                            },
+                            "eventID": {
+                              "description": "sündmuse ID",
+                              "type": "integer"
+                            },
+                            "eventTypeID": {
+                              "description": "Sündmuse liigi nimetus",
+                              "type": "string",
+                              "example": "Kontsert"
+                            },
+                            "eventName": {
+                              "description": "Sündmuse nimetus",
+                              "type": "string",
+                              "example": "Augustibluus"
+                            },
+                            "description": {
+                              "description": "Sündmuse kirjeldus",
+                              "type": "string"
+                            },
+                            "startTime": {
+                              "description": "Sündmuse toimumise aeg",
+                              "type": "string",
+                              "format": "yyyy-mm-dd hh:mm",
+                              "example": "2022-08-14 17:00"
+                            },
+                            "placeID": {
+                              "description": "Toimumise koha ID",
+                              "type": "integer"
+                            },
+                            "placeDescription": {
+                              "description": "Sündmuskoha täpsem kirjeldus",
+                              "type": "string" 
+                            },
+                            "ticketPrice": {
+                              "description": "Pileti hind",
+                              "type": "number",
+                              "example": 15.00
+                            },
+                            "ticetSaleOnLIne": {
+                              "description": "Interneti piletimüügi URL",
+                              "type": "string"
+                            },
+                            "ticketSaleAtDoor": {
+                              "description": "Kas piletimüük toimub ka kohapeal",
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/eventlist/{organizationID}": {
+        "get": {
+          "description": "Tagastab kõik planeeritud sündmused. Võimalik anda parameetreid GET muutujatega",
+          "parameters": [
+            {
+              "name": "dateFrom",
+              "in": "path",
+              "description": "Näita sündmusi alates kuupäevast",
+              "schema": {
+                "type": "string",
+                "format": "yyyy-mm-dd"
+              },
+              "style": "simple"
+            },
+            {
+              "name": "dateTo",
+              "in": "path",
+              "description": "Näita sündmusi kuni kuupäevani",
+              "schema": {
+                "type": "string",
+                "format": "yyyy-mm-dd"
+              },
+              "style": "simple"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Sündmuste nimekiri",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "string",
+                        "example": "success"
+                      },
+                      "message":{
+                        "type": "string",
+                        "example": "List of events"
+                      },
+                      "eventList": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "organizationID": {
+                              "description": "Sündmuse korraldaja ID",
+                              "type": "integer"
+                            },
+                            "eventID": {
+                              "description": "sündmuse ID",
+                              "type": "integer"
+                            },
+                            "eventTypeID": {
+                              "description": "Sündmuse liigi nimetus",
+                              "type": "string",
+                              "example": "Kontsert"
+                            },
+                            "eventName": {
+                              "description": "Sündmuse nimetus",
+                              "type": "string",
+                              "example": "Augustibluus"
+                            },
+                            "description": {
+                              "description": "Sündmuse kirjeldus",
+                              "type": "string"
+                            },
+                            "startTime": {
+                              "description": "Sündmuse toimumise aeg",
+                              "type": "string",
+                              "format": "yyyy-mm-dd hh:mm",
+                              "example": "2022-08-14 17:00"
+                            },
+                            "placeID": {
+                              "description": "Toimumise koha ID",
+                              "type": "integer"
+                            },
+                            "placeDescription": {
+                              "description": "Sündmuskoha täpsem kirjeldus",
+                              "type": "string" 
+                            },
+                            "ticketPrice": {
+                              "description": "Pileti hind",
+                              "type": "number",
+                              "example": 15.00
+                            },
+                            "ticetSaleOnLIne": {
+                              "description": "Interneti piletimüügi URL",
+                              "type": "string"
+                            },
+                            "ticketSaleAtDoor": {
+                              "description": "Kas piletimüük toimub ka kohapeal",
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/events": {
+        "get": {
+          "description": "Tagastab kõik planeeritud sündmused. Võimalik anda parameetreid GET muutujatega",
+          "parameters": [
+            {
+              "name": "host",
+              "in": "path",
+              "description": "Ürituse korraldaja ID",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "style": "simple"
+            },
+            {
+              "name": "dateFrom",
+              "in": "path",
+              "description": "Näita sündmusi alates kuupäevast",
+              "schema": {
+                "type": "string",
+                "format": "yyyy-mm-dd"
+              },
+              "style": "simple"
+            },
+            {
+              "name": "dateTo",
+              "in": "path",
+              "description": "Näita sündmusi kuni kuupäevani",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "yyyy-mm-dd"
+              },
+              "style": "simple"
+            },
+            {
+              "name": "status",
+              "in": "path",
+              "description": "Näitab kõiki sündmusi, kuid status=1",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "style": "simple"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Sündmuste nimekiri",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "string",
+                        "example": "success"
+                      },
+                      "message":{
+                        "type": "string",
+                        "example": "List of events"
+                      },
+                      "eventList": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "ID": {
+                              "description": "sündmuse ID",
+                              "type": "integer"
+                            },
+                            "organizationID": {
+                              "description": "Sündmuse korraldaja ID",
+                              "type": "integer"
+                            },
+                            "eventTypeID": {
+                              "description": "Sündmuse liigi ID",
+                              "type": "integer"
+                            },
+                            "eventName": {
+                              "description": "Sündmuse nimetus",
+                              "type": "string",
+                              "example": "Augustibluus"
+                            },
+                            "description": {
+                              "description": "Sündmuse kirjeldus",
+                              "type": "string"
+                            },
+                            "startTime": {
+                              "description": "Sündmuse toimumise aeg",
+                              "type": "string",
+                              "format": "yyyy-mm-dd hh:mm",
+                              "example": "2022-08-14 17:00"
+                            },
+                            "placeID": {
+                              "description": "Toimumise koha ID",
+                              "type": "integer"
+                            },
+                            "placeDescription": {
+                              "description": "Sündmuskoha täpsem kirjeldus",
+                              "type": "string" 
+                            },
+                            "statusID": {
+                              "description": "Sündmuse planeerimise staatus - 1 planeerimisel 2 toimub",
+                              "type": "integer"
+                            },
+                            "ticketPrice": {
+                              "description": "Pileti hind",
+                              "type": "number",
+                              "example": 15.00
+                            },
+                            "ticetSaleOnLIne": {
+                              "description": "Interneti piletimüügi URL",
+                              "type": "string"
+                            },
+                            "ticketSaleAtDoor": {
+                              "description": "Kas piletimüük toimub ka kohapeal",
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "description": "Sündmuse lisamine",
+          "security":  [
+            { "bearer": [] }
+          ],
+          "requestBody":{
+            "required": true,
+            "content": {
+              "application/json" : {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "organizationID": {
+                      "description": "Organisatsiooni ID",
+                      "type": "number",
+                      "example": "1"
+                    },
+                    "eventTypeID": {
+                      "description": "Sündmuse liigi ID",
+                      "type": "number",
+                      "example": "1"
+                    },
+                    "eventName": {
+                      "description": "Sündmuse nimi",
+                      "type": "string",
+                      "example": "Becket ehk Jumala au"
+                    },
+                    "description": {
+                      "description": "Parool",
+                      "type": "string",
+                      "example": "Jean Anouilh ajalooline näidend kahe suurmehe sõprusest"
+                    },
+                    "startTIme": {
+                      "description": "Sündmuse kuupäev ja kellaaeg",
+                      "type": "string",
+                      "example": "2022-12-31 23:59"
+                    },
+                    "placeID": {
+                      "description": "Sündmuse toimumise kohta ID",
+                      "type": "number",
+                      "example": "1"
+                    },
+                    "placeDescription": {
+                      "description": "Sündmuse koht täpsustamiseks, või kui ID'd pole",
+                      "type": "string",
+                      "example": "Suures saalis"
+                    },
+                    "public": {
+                      "description": "Sündmust kuvatakse kõigile",
+                      "type": "boolean"
+                    },
+                    "ticketPrice": {
+                      "description": "Pileti hind",
+                      "type": "number",
+                      "example": "5.00"
+                    },
+                    "ticketSaleOnLine": {
+                      "description": "Link piletimüügi keskkonda",
+                      "type": "string",
+                      "example": "https://www.piletilevi.ee/tickets/becket"
+                    },
+                    "ticketSaleAtDoor": {
+                      "description": "Kas pileteid müüakse ka kohapeal",
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "sündmuse lisamine õnnestus",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "message": {
+                       "type": "string",
+                        "example": "Event added to list"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Sündmust ei lisatud",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Something went wrong, event was not added"
+                      }
+                    }
+                  }
+                }
+              }
+            } 
+          }
+        },
+        "post": {
+          "description": "Sündmuse andmete muutmine",
+          "security":  [
+            { "bearer": [] }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json" : {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "ID": {
+                      "description": "ID",
+                      "type": "number",
+                      "example": "1"
+                    },
+                    "organizationID": {
+                      "description": "Organisatsiooni ID",
+                      "type": "number",
+                      "example": "1"
+                    },
+                    "eventTypeID": {
+                      "description": "Sündmuse liigi ID",
+                      "type": "number",
+                      "example": "1"
+                    },
+                    "eventName": {
+                      "description": "Sündmuse nimi",
+                      "type": "string",
+                      "example": "Becket ehk Jumala au"
+                    },
+                    "description": {
+                      "description": "Parool",
+                      "type": "string",
+                      "example": "Jean Anouilh ajalooline näidend kahe suurmehe sõprusest"
+                    },
+                    "startTIme": {
+                      "description": "Sündmuse kuupäev ja kellaaeg",
+                      "type": "string",
+                      "example": "2022-12-31 23:59"
+                    },
+                    "placeID": {
+                      "description": "Sündmuse toimumise kohta ID",
+                      "type": "number",
+                      "example": "1"
+                    },
+                    "placeDescription": {
+                      "description": "Sündmuse koht täpsustamiseks, või kui ID'd pole",
+                      "type": "string",
+                      "example": "Suures saalis"
+                    },
+                    "public": {
+                      "description": "Sündmust kuvatakse kõigile",
+                      "type": "boolean"
+                    },
+                    "ticketPrice": {
+                      "description": "Pileti hind",
+                      "type": "number",
+                      "example": "5.00"
+                    },
+                    "ticketSaleOnLine": {
+                      "description": "Link piletimüügi keskkonda",
+                      "type": "string",
+                      "example": "https://www.piletilevi.ee/tickets/becket"
+                    },
+                    "ticketSaleAtDoor": {
+                      "description": "Kas pileteid müüakse ka kohapeal",
+                      "type": "boolean"
+                    }
+                  }                  
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Sündmuse muutmine õnnestus",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "message": {
+                       "type": "string",
+                        "example": "Event updated"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Pole administraatoriõigusi või pole sisse logitud",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "You have to be admin"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Sündmust ei muudetud",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Something went wrong, event was not updated"
+                      }
+                    }
+                  }
+                }
+              }
+            } 
+          }
+        }
+      },
+      "/api/v1/events/{ID}": {
+        "delete": {
+          "description": "Sündmuse kustutamine",
+          "security":  [
+            { "bearer": [] }
+          ],
+          "responses": {
+            "200": {
+              "description": "Sündmuse kustutamie õnnestus",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "message": {
+                       "type": "string",
+                        "example": "Event deleted from list"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Pole administraatoriõigusi või pole sisse logitud",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "You have to be admin"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Sündmust ei kustutatud",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Something went wrong, event was not deleted"
+                      }
+                    }
+                  }
+                }
+              }
+            } 
+          }
+        }
+      },
+      "/api/v1/login": {
+        "post": {
+          "description": "Sisse logimine",
+          "requestBody":{
+            "required": true,
+            "content": {
+              "application/json" : {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "email": {
+                      "description": "Kasutaja e-mail",
+                      "type": "string"
+                    },
+                    "password": {
+                      "description": "Parool",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Sisse logitud",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "token"
+                      },
+                      "token": {
+                        "type": "string",
+                        "example": "fsddöasdnföaslkdöasdferf8upwofnaölsdnap",
+                        "description": "JSON Web Token"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404":{
+              "description": "Kasutajat ei leitud või Vale parool",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "success": { 
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Wrong password"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Puudub kasutaja või parool",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "success": { 
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Email or password are missing"
+                      }
+                    }
+                  }
+                }
+              }    
+            }
+          }
+        }
+      },
+      "/api/v1/users": {
+        "get": {
+          "description": "Tagastab kasutajate nimekirja",
+          "security":  [
+            { "bearer": [] }
+          ],
+          "responses": {
+            "200": {
+              "description": "Tagastatud kasutajate nimekiri",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "List of Users"
+                      },
+                      "userList": {
+                        "type": "object",
+                        "example": {
+                          "ID": 1,
+                          "name": "Artur",
+                          "surname": "Kass",
+                          "email": "kass.artur@mail.ee",
+                          "password": "dsd98weofjwdsdapsefwefw0dj",
+                          "admin": 1,
+                          "organizationID": 2,
+                          "deleteDate": "2022-12-31 23:59"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Pole administraatoriõigusi või pole sisse logitud",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "You have to be admin"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "description": "Kasutaja lisamine",
+          "security":  [
+            { "bearer": [] }
+          ],
+          "requestBody":{
+            "required": true,
+            "content": {
+              "application/json" : {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "name": {
+                      "description": "Eesnimi",
+                      "type": "string",
+                      "example": "Artur"
+                    },
+                    "surname": {
+                      "description": "Perekonnanimi",
+                      "type": "string",
+                      "example": "Kass"
+                    },
+                    "email": {
+                      "description": "E-posti aadress",
+                      "type": "string",
+                      "example": "kass.artur@mail.ee"
+                    },
+                    "password": {
+                      "description": "Parool",
+                      "type": "string",
+                      "example": "P0sticana"
+                    },
+                    "organizationID": {
+                      "description": "Asutuse ID",
+                      "type": "number",
+                      "example": "2"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Kasutaja lisamine õnnestus",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "message": {
+                       "type": "string",
+                        "example": "User added to list"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Kasutajat ei lisatud",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Something went wrong, user was not added"
+                      }
+                    }
+                  }
+                }
+              }
+            } 
+          }
+        },
+        "post": {
+          "description": "Kasutaja andmete muutmine",
+          "security":  [
+            { "bearer": [] }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json" : {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "ID": {
+                      "description": "ID",
+                      "type": "number",
+                      "example": "1"
+                    },
+                    "name": {
+                      "description": "Eesnimi",
+                      "type": "string",
+                      "example": "Artur"
+                    },
+                    "surname": {
+                      "description": "Perekonnanimi",
+                      "type": "string",
+                      "example": "Kass"
+                    },
+                    "password": {
+                      "description": "Parooli räsi",
+                      "type": "string",
+                      "example": "aöjföalsdkjfsadf483jf3fj034jf3ofm34j3v"
+                    },
+                    "admin": {
+                      "description": "Administraatori õigused",
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "organizationID": {
+                      "description": "Asutuse ID",
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Kasutaja muutmine õnnestus",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "message": {
+                       "type": "string",
+                        "example": "User updated"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Pole administraatoriõigusi või pole sisse logitud",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "You have to be admin"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Kasutajat ei muudetud",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Something went wrong, user was not updated"
+                      }
+                    }
+                  }
+                }
+              }
+            } 
+          }
+        }
+      },
+      "/api/v1/users/{ID}": {
+        "delete": {
+          "description": "Kasutaja kustutamine",
+          "security":  [
+            { "bearer": [] }
+          ],
+          "responses": {
+            "200": {
+              "description": "Kasutaja kustutamie õnnestus",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "message": {
+                       "type": "string",
+                        "example": "User deleted from list"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Pole administraatoriõigusi või pole sisse logitud",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "You have to be admin"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Kasutajat ei kustutatud",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Something went wrong, user was not deleted"
+                      }
+                    }
+                  }
+                }
+              }
+            } 
+          }
+        }
+      }
+    }
+  }
+

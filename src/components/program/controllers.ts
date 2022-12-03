@@ -5,28 +5,16 @@ import ProgramServices from "./services";
 
 
 const ProgramControllers = {
-  getProgramList: async (req: Request, res: Response) => {
-    
-    const programList : IProgram[] = await ProgramServices.getProgramList();
-    
-    res.status(ResponseCodes.success).json({
-      success: true,
-      message: 'List of programs',
-      programList
-    });    
-  },
 
+  getProgramByEvent: async (req: Request, res: Response) => {
+    const eventID = parseInt(req.params.eventID);
 
-  
-  getProgram: async (req: Request, res: Response) => {
-    let id = parseInt(req.params.id);
-
-    const program: IProgram | undefined = await ProgramServices.getProgram(id);
+    const program: IProgram | undefined = await ProgramServices.getProgram(eventID);
 
     if (program != undefined) {
       res.status(ResponseCodes.success).json({
         success: true,
-        message: 'Selected programs',
+        message: 'Program of event',
         program
       });
     }
@@ -34,6 +22,29 @@ const ProgramControllers = {
       res.status(ResponseCodes.badRequest).json({
         success: false,
         message: 'No such program',
+      });
+    }   
+    
+  },
+
+  getProgramItem: async (req: Request, res: Response) => {
+    
+    const eventID = parseInt(req.params.eventID);
+    const id = parseInt(req.params.id);
+
+    const program: IProgram | undefined = await ProgramServices.getProgramItem(eventID, id);
+
+    if (program != undefined) {
+      res.status(ResponseCodes.success).json({
+        success: true,
+        message: 'Program Item',
+        program
+      });
+    }
+    else {
+      res.status(ResponseCodes.badRequest).json({
+        success: false,
+        message: 'Program item not found',
       });
     }   
     

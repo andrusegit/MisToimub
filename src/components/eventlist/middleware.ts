@@ -14,9 +14,10 @@ const EventsMiddlewares = {
     const {  
       organizationID, 
     } = req.body;
-
+    
     if (organizationID == res.locals.user.organization) 
       next();
+
     else {
       return res.status(ResponseCodes.badRequest).json({
         success: false,
@@ -28,22 +29,17 @@ const EventsMiddlewares = {
 
   verifyOrganizationInDB: async (req: Request, res: Response, next: NextFunction) => {
     
-    let id = req.params.id;
-    
     const {  
       ID,
       organizationID, 
     } = req.body;
     
-    if (ID != undefined)
-      id = ID;
-
-    const event: IEvent | undefined = await EventServices.getEvent(parseInt(id))
+    const event: IEvent | undefined= await EventServices.getEvent(parseInt(ID))
     
     if (event == undefined) {
       return res.status(ResponseCodes.badRequest).json({
         success: false,
-        message: "Wrong Orgnization id"
+        message: "Wrong event id"
       });
     }
 

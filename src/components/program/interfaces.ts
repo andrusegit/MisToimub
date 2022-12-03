@@ -4,7 +4,7 @@ interface INewProgram {
   eventID: number,
   name: string,
   description: string,
-  startTime: string
+  startTime: string,
 };
 
 interface IProgram extends INewProgram {

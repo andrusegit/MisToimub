@@ -12,12 +12,33 @@ const UserControllers = {
     
     const userList : IUser[] = await UserServices.getUserList();
 
-    res.status(ResponseCodes.created).json({
+    res.status(ResponseCodes.success).json({
       success: true,
       message: 'List of Users',
       userList
     }); 
   },
+
+  getUser: async (req: Request, res: Response) => {
+    let id = parseInt(req.params.id);
+
+    let user = await UserServices.getUser(id);
+
+    if (user != undefined) {
+      res.status(ResponseCodes.success).json({
+        success: true,
+        message: 'User data',
+        user
+      });
+    }
+    else {
+      res.status(ResponseCodes.badRequest).json({
+        success: false,
+        message: 'Something went wrong, user was not deleted'
+      });
+    }
+  },
+
 
   addUser: async (req: Request, res: Response) => {
  
@@ -50,7 +71,7 @@ const UserControllers = {
   updateUser: async (req: Request, res: Response) => {
     
     const {
-      ID, name, surname, email, password, admin, organizationID
+      ID, name, surname, email, password, admin, organizationID, deleteDate
      } = req.body;
   
     const userData: IUser = {
@@ -66,7 +87,7 @@ const UserControllers = {
     let changedRows = await UserServices.updateUser(userData);
 
     if (changedRows > 0) {
-      res.status(ResponseCodes.created).json({
+      res.status(ResponseCodes.success).json({
         success: true,
         message: 'User updated'
       });
@@ -93,7 +114,7 @@ const UserControllers = {
     else {
       res.status(ResponseCodes.badRequest).json({
         success: false,
-        message: 'Something went wrong, user was not updated'
+        message: 'Something went wrong, user was not deleted'
       });
     }
   },

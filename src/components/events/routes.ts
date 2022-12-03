@@ -6,8 +6,8 @@ import EventMiddlewares from "./middleware";
 const eventRoutes = express.Router();
 
 eventRoutes
-  .get('/', EventControllers.getEventList)
-  .get('/:id', EventControllers.getEvent)
+  .get('/', authMiddleware.isLoggedIn, EventControllers.getEventList)
+  .get('/:id', authMiddleware.isLoggedIn, EventControllers.getEvent)
   .put('/', authMiddleware.isLoggedIn, EventMiddlewares.verifyOrganizationInRequest, EventControllers.addEvent)
   .post('/', authMiddleware.isLoggedIn, EventMiddlewares.verifyOrganizationInRequest, 
     EventMiddlewares.verifyOrganizationInDB, EventControllers.updateEvent)

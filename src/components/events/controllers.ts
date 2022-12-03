@@ -70,7 +70,7 @@ const EventControllers = {
       startTime: startTime,
       placeID: placeID,
       placeDescription: placeDescription,
-      statusID: statusID,
+      public: statusID,
       ticketPrice: ticketPrice,
       ticketSaleOnLine: ticketSaleOnLine,
       ticketSaleAtDoor: ticketSaleAtDoor
@@ -111,7 +111,7 @@ const EventControllers = {
       startTime: startTime,
       placeID: placeID,
       placeDescription: placeDescription,
-      statusID: statusID,
+      public: statusID,
       ticketPrice: ticketPrice,
       ticketSaleOnLine: ticketSaleOnLine,
       ticketSaleAtDoor: ticketSaleAtDoor
@@ -120,7 +120,7 @@ const EventControllers = {
     let changedRows = await EventServices.updateEvent(event);
 
     if (changedRows > 0) {
-      res.status(ResponseCodes.created).json({
+      res.status(ResponseCodes.success).json({
         success: true,
         message: 'Event updated'
       });
@@ -146,7 +146,7 @@ const EventControllers = {
     else {
       res.status(ResponseCodes.badRequest).json({
         success: false,
-        message: 'Something went wrong, event was not updated'
+        message: 'Something went wrong, event was not deleted'
       });
     }
   },

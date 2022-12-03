@@ -12,6 +12,7 @@ interface INewUser {
 
 interface IUser extends INewUser {
   ID: number
+
 }
 
 interface IUserSQL extends IUser, RowDataPacket {

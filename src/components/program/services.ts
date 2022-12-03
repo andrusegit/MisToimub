@@ -4,22 +4,35 @@ import { FieldPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
 
 const ProgramServices = {
     
-  getProgramList: async () : Promise<IProgram[]> => {
-    
+  
+  getProgramByEvent: async (eventID: number): Promise<IProgram[] | undefined> => {
     let list : IProgram[] = [];
 
     try {
-      const [result]: [IProgramSQL[], FieldPacket[]] = await pool.query(`SELECT * FROM Program`);
+      const [result]: [IProgramSQL[], FieldPacket[]] = await pool.query(`SELECT * FROM Program WHERE eventID=?`, eventID);
       list = result;
     }
     catch (err) {
-      console.log("getProgramList: " + err);
+      console.log("getProgramByEvent: " + err);
     }
 
     return list;
   },
 
-  getProgramListByEvent: async (id: number): Promise<IProgram[] | undefined> => {return},
+  getProgramItem: async (eventID:number, id: number) : Promise<IProgram |undefined> => {
+    
+    let item : IProgram | undefined
+
+    try {
+      const [result]: [IProgramSQL[], FieldPacket[]] = await pool.query(`SELECT * FROM Program WHERE eventID=? AND ID=?`, [eventID, id]);
+      item = result[0];
+    }
+    catch (err) {
+      console.log("getProgramItem: " + err);
+    }
+
+    return item;
+  },
 
   getProgram: async (id: number): Promise<IProgram | undefined> => {
     let program: IProgram | undefined;

@@ -2,7 +2,7 @@ const config = {
   port: 3000,
   jwtSecret: '.uaygduahfbucuigiwufiu33872iiweuhfwie7kkwgy',
   saltRounds: 10,
-  apiPath: '/api/v1',
+  apiPath: '/api',
   db: {
     user: 'wwwuser',
     password: 'paruul',

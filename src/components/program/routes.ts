@@ -7,7 +7,8 @@ import { Router } from "express";
 const programRoutes = express.Router();
 
 programRoutes
-  .get('/', ProgramControllers.getProgramList)
+  .get('/:eventID', ProgramControllers.getProgramByEvent)
+  .get('/eventID/id', authMiddleware.isLoggedIn, ProgramMiddlewares.verifyOrganizationInRequest, ProgramControllers.getProgramItem)
   .put('/', authMiddleware.isLoggedIn, ProgramMiddlewares.verifyOrganizationInRequest, ProgramControllers.addProgram)
   .post('/', authMiddleware.isLoggedIn, ProgramMiddlewares.verifyOrganizationInRequest, ProgramControllers.updateProgram)
   .delete('/:id', authMiddleware.isLoggedIn, ProgramMiddlewares.verifyOrganizationInRequest, ProgramControllers.deleteProgram)

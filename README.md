@@ -124,3 +124,23 @@ npm install -g node-gyp
 npm link bcrypt
 - **jonewebtoken** - paigaldamiseks `npm install jsonwebtoken @types/jsonwebtoken`
 
+
+
+npm install --save-dev mocha
+npm install --save-dev @types/mocha
+
+npm install --save-dev chai
+npm install --save-dev @types/chai
+
+cheatsheet https://devhints.io/chai
+
+npm install --save-dev supertest 
+npm install --save-dev @types/supertest
+
+Testidega kaetus:
+npm install nyc
+
+package.json-i "test": "nyc mocha -r ts-node/register 'tests/**/*.ts'"
+(enne "test": "echo \"Error: no test specified\" && exit 1",)
+
+npm install swagger-autogen and swagger-ui-express

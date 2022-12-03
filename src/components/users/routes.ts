@@ -7,6 +7,7 @@ const userRoutes = express.Router()
 
 userRoutes
   .get('/', authMiddleware.isLoggedIn, authMiddleware.isAdmin, UserControllers.getUserList)
+  .get('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, UserControllers.getUser)
   .put('/', UserControllers.addUser)
   .post('/', authMiddleware.isLoggedIn, authMiddleware.isAdmin, UserControllers.updateUser)
   .delete('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, UserControllers.deleteUser)

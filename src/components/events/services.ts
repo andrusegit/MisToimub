@@ -40,8 +40,6 @@
 
       sqlString += " ORDER BY startTime;";
 
-      console.log(sqlString);
-      console.log(sqlParams);
       try {
         const [result]: [IEventSQL[], FieldPacket[]] = await pool.query(sqlString, sqlParams);
         list = result;
@@ -65,8 +63,7 @@
         const [result]: [IEventSQL[], FieldPacket[]] = await pool.query('SELECT * FROM Event WHERE ID=?', [id]);
         event = result[0];
         let date = new Date(event.startTime);
-        event.startTime = date.toISOString().substring(0, 16).replace('T', ' ');
-          
+        event.startTime = date.toISOString().substring(0, 16).replace('T', ' ');  
       }
       catch (err) {
         console.log("getEvent: " + err);
@@ -88,7 +85,7 @@
         startTime: newEvent.startTime,
         placeID: newEvent.placeID,
         placeDescription: newEvent.placeDescription,
-        statusID: newEvent.statusID,
+        public: newEvent.public,
         ticketPrice: newEvent.ticketPrice,
         ticketSaleOnLine: newEvent.ticketSaleOnLine,
         ticketSaleAtDoor: newEvent.ticketSaleAtDoor,
@@ -121,7 +118,7 @@
         startTime: eventData.startTime,
         placeID: eventData.placeID,
         placeDescription: eventData.placeDescription,
-        statusID: eventData.statusID,
+        public: eventData.public,
         ticketPrice: eventData.ticketPrice,
         ticketSaleOnLine: eventData.ticketSaleOnLine,
         ticketSaleAtDoor: eventData.ticketSaleAtDoor
@@ -135,6 +132,7 @@
       catch (err) {
         console.log("updateEvent: " + err);
       }
+      
       return changedRows;
   
     },
@@ -146,12 +144,13 @@
   
       try {
         const result = await pool.query('UPDATE Event SET deleteDate=? WHERE id=?;', [new Date(), eventId]);
-        json = result;
+        json = result[0];
         changedRows = json.changedRows;
       }
       catch (err) {
         console.log("deleteEvent:" + err);
       }
+
       return changedRows;
     },
   };

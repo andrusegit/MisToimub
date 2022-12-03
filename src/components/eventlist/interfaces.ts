@@ -1,6 +1,6 @@
 import { RowDataPacket } from 'mysql2';
 
-interface INewEvent {
+interface IEventListEvent {
 organizationID: number;
 eventTypeID: number;
 eventName: string;
@@ -8,34 +8,25 @@ description: string;
 startTime: string;
 placeID: number;
 placeDescription: string;
-public: number,
+statusID: number,
 ticketPrice: number;
 ticketSaleOnLine: string;
 ticketSaleAtDoor: string;
 }
 
-interface IEvent extends INewEvent {
-  ID: number;
+interface IEventListEventSQL extends IEventListEvent, RowDataPacket{
 }
-
-interface IEventSQL extends IEvent, RowDataPacket {
-  deleteDate: string;
-}
-
-
-
-interface IProgram {
+  
+interface IEventProgram {
   userId: string;
   eventId : number;
   name: string;
   description: string;
-  date: string;
+  startTime: string;
   time: string;
 }
 
-const EventStatus = {
-  intent: 0,
-  takingPlace: 1
+interface IEventProgramSQL extends IEventProgram, RowDataPacket{
 }
 
-export {INewEvent, IEvent, IEventSQL, EventStatus}
+export { IEventListEvent, IEventListEventSQL, IEventProgram, IEventProgramSQL }

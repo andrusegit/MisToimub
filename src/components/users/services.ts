@@ -20,20 +20,20 @@ const UserServices = {
     return list;
   },
 
-  addUser: async (newUser: INewUser) : Promise<number> => {
+  addUser: async (newUserData: INewUser) : Promise<number> => {
  
     let json : any;
     let insertId : number = 0;
 
-    const passwordHash = await authServices.hash(newUser.password);
+    const passwordHash = await authServices.hash(newUserData.password);
 
-    const user: INewUser = {
-      name: newUser.name,
-      surname: newUser.surname,
-      email : newUser.email,
+    const newUser: INewUser = {
+      name: newUserData.name,
+      surname: newUserData.surname,
+      email : newUserData.email,
       password: passwordHash,
       admin: false,
-      organizationID: newUser.organizationID
+      organizationID: newUserData.organizationID
     }
 
     try {
@@ -47,6 +47,20 @@ const UserServices = {
 
     return insertId;
 
+  },
+
+  getUser: async (id: number): Promise<IUserSQL | undefined> => {
+
+    let user : IUserSQL | undefined = undefined; 
+    try {
+      const [result]: [IUserSQL[], FieldPacket[]] = await pool.query('SELECT * FROM User WHERE ID=?', [id]);
+      user = result[0];
+    }
+    catch (err) {
+      console.log("getUser: " + err);
+    }
+
+    return user;
   },
 
   updateUser: async (userData : IUser): Promise<number> => {
@@ -85,13 +99,14 @@ const UserServices = {
     let changedRows : number = 0;
 
     try {
-      const result = await pool.query('UPDATE User SET deleteDate=? WHERE id=?;', [new Date(), userId]);
-      json = result;
+      const result = await pool.query('UPDATE User SET deleteDate=? WHERE ID=?;', [new Date(), userId]);
+      json = result[0];
       changedRows = json.changedRows;
     }
     catch (err) {
       console.log("deleteUser:" + err);
     }
+    
     return changedRows;
   },
 
