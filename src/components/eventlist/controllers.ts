@@ -7,12 +7,6 @@ import EventListServices from "./services";
 const EventListControllers = {
   getEventList: async (req: Request, res: Response) => {
     let params: {[key: string]: any} = {};
-
-    if (req.query.host)
-      params.organizationID = req.query.place;
-
-    if (req.query.status)
-      params.statusID = req.query.status;
     
     if (req.query.dateFrom) 
       params.dateFrom = req.query.dateFrom;
@@ -35,9 +29,6 @@ const EventListControllers = {
     if (req.query.host)
       params.organizationID = parseInt(req.params.organizationID);
 
-    if (req.query.status)
-      params.statusID = req.query.status;
-    
     if (req.query.dateFrom) 
       params.dateFrom = req.query.dateFrom;
 

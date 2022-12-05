@@ -45,7 +45,7 @@
         list = result;
       }
       catch (err) {
-        console.log("getEventList: " + err);
+        //console.log("getEventList: " + err);
       }
 
       list.forEach(element => {
@@ -66,7 +66,7 @@
         event.startTime = date.toISOString().substring(0, 16).replace('T', ' ');  
       }
       catch (err) {
-        console.log("getEvent: " + err);
+        //console.log("getEvent: " + err);
       }
 
       return event;
@@ -97,7 +97,7 @@
         insertId = json.insertId;
       }
       catch (err) {
-        console.log("addEvent: " + err);
+        //console.log("addEvent: " + err);
       }
   
       return insertId;
@@ -130,7 +130,7 @@
         changedRows = json.changedRows;
       }
       catch (err) {
-        console.log("updateEvent: " + err);
+        //console.log("updateEvent: " + err);
       }
       
       return changedRows;
@@ -148,7 +148,7 @@
         changedRows = json.changedRows;
       }
       catch (err) {
-        console.log("deleteEvent:" + err);
+        //console.log("deleteEvent:" + err);
       }
 
       return changedRows;

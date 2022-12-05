@@ -34,7 +34,7 @@ const UserControllers = {
     else {
       res.status(ResponseCodes.badRequest).json({
         success: false,
-        message: 'Something went wrong, user was not deleted'
+        message: 'User was not found'
       });
     }
   },

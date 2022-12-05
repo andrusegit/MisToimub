@@ -21,8 +21,8 @@ app.post(`${apiPath}/login`, authControllers.login);
 app.use(`${apiPath}/eventlist`, eventListRoutes);
 app.use(`${apiPath}/events`, eventRoutes);
 app.use(`${apiPath}/users`, userRoutes);
-app.use(`${apiPath}/places`, placeRoutes);
-app.use(`${apiPath}/program`, programRoutes);
+//app.use(`${apiPath}/places`, placeRoutes);
+//app.use(`${apiPath}/program`, programRoutes);
 app.use(`${apiPath}/doc`, swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 

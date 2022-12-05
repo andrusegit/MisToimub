@@ -20,6 +20,11 @@ const wrongUser = {
   password: 'wrongpassword',
 };
 
+const wrongPasswordUser = {
+  email: 'test@test.ee',
+  password: 'wrongpassword',
+};
+
 const adminUser = {
   email: 'andrus@tlu.ee',
   password: 'dontellya',
@@ -48,7 +53,7 @@ const testUserUpdate = {
   name: "Test",
   surname: "Test"+Math.random(),
   email: 'test@test.ee',
-  password: 'aööslkdfjöakdföaskdfasidjföaskdföaskldnöaskdfnöasldkfnöasldkfnöasdfnö',
+  password: 'dontellya',
   organizationID: 1
 };
 
@@ -69,6 +74,13 @@ describe('Login controller', () => {
       expect(response.statusCode).to.equal(ResponseCodes.notFound);
       expect(response.body.success).to.be.false;
       expect(response.body.message).to.equal('User not found');
+    });
+    it(`responds with error message and statusCode ${ResponseCodes.notFound}`, async () => {
+      const response = await request(app).post(`${apiPath}/login`).send(wrongPasswordUser);
+      expect(response.body).to.be.a('object');
+      expect(response.statusCode).to.equal(ResponseCodes.notFound);
+      expect(response.body.success).to.be.false;
+      expect(response.body.message).to.equal('Wrong password');
     });
     it(`sends statuscode and token ${ResponseCodes.success}`, async () => {
       const response = await request(app).post(`${apiPath}/login`).send(adminUser);
@@ -93,6 +105,13 @@ describe('Login controller', () => {
  
       
   describe(`GET ${apiPath}/users`, () => {
+    it(`Gets users list not logged in ${ResponseCodes.unauthorized}`, async () => {
+      const response = await request(app).get(`${apiPath}/users`);
+      expect(response.body).to.be.a('object');
+      expect(response.statusCode).to.equal(ResponseCodes.unauthorized);
+      expect(response.body.success).to.be.false;
+      expect(response.body.message).to.equal("Token not found");
+    });
     it(`Gets users list ${ResponseCodes.success}`, async () => {
       
       const response = await request(app).get(`${apiPath}/users`).set('Authorization', 'bearer ' + adminToken);
@@ -142,6 +161,13 @@ describe('Login controller', () => {
         expect(response.statusCode).to.equal(ResponseCodes.success);
         expect(response.body.success).to.be.true;
       });
+      it(`Get test user ${ResponseCodes.badRequest}`, async () => {
+        const response = await request(app).get(`${apiPath}/users/0`).set('Authorization', 'bearer ' + adminToken);
+        expect(response.body).to.be.a('object');
+        expect(response.statusCode).to.equal(ResponseCodes.badRequest);
+        expect(response.body.success).to.be.false;
+      });
+
   });
 
   describe(`POST ${apiPath}/users/`, () => {

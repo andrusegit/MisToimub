@@ -35,7 +35,7 @@
         list = result;
       }
       catch (err) {
-        console.log("getEventList: " + err);
+        //console.log("getEventList: " + err);
       }
 
       list.forEach(element => {

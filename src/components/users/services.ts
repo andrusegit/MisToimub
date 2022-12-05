@@ -14,7 +14,7 @@ const UserServices = {
       list = result;
     }
     catch (err) {
-      console.log("getUserList: " + err);
+      //console.log("getUserList: " + err);
     }
 
     return list;
@@ -42,7 +42,7 @@ const UserServices = {
       insertId = json.insertId;
     }
     catch (err) {
-      console.log("adduser: " + err);
+      //console.log("adduser: " + err);
     }
 
     return insertId;
@@ -57,7 +57,7 @@ const UserServices = {
       user = result[0];
     }
     catch (err) {
-      console.log("getUser: " + err);
+      //console.log("getUser: " + err);
     }
 
     return user;
@@ -87,7 +87,7 @@ const UserServices = {
       changedRows = json.changedRows;
     }
     catch (err) {
-      console.log("updateUser: " + err);
+      //console.log("updateUser: " + err);
     }
     return changedRows;
 
@@ -104,7 +104,7 @@ const UserServices = {
       changedRows = json.changedRows;
     }
     catch (err) {
-      console.log("deleteUser:" + err);
+      //console.log("deleteUser:" + err);
     }
     
     return changedRows;
@@ -137,7 +137,7 @@ const UserServices = {
         userExists = false;
     }
     catch (err) {
-      console.log("isUserExists: " + err);
+      //console.log("isUserExists: " + err);
     }
 
     return userExists;
