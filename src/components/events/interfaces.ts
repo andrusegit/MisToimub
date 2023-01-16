@@ -8,7 +8,7 @@ description: string;
 startTime: string;
 placeID: number;
 placeDescription: string;
-public: number,
+published: number,
 ticketPrice: number;
 ticketSaleOnLine: string;
 ticketSaleAtDoor: string;

@@ -20,13 +20,12 @@
         sqlParams.push(params.organizationID);
       }
 
-      if ("statusID" in params) {
-        sqlString += " AND statusID=?";
-        sqlParams.push(params.statusID);
+      if ("published" in params) {
+        sqlString += " AND published>=?";
+        sqlParams.push(params.published);
       }
-      else {
-        sqlString += " AND statusID>0";
-      }
+      else
+        sqlString += " AND published>=1";
       
       if ("dateFrom" in params) {
         sqlString += " AND startTime>=?";
@@ -85,7 +84,7 @@
         startTime: newEvent.startTime,
         placeID: newEvent.placeID,
         placeDescription: newEvent.placeDescription,
-        public: newEvent.public,
+        published: newEvent.published,
         ticketPrice: newEvent.ticketPrice,
         ticketSaleOnLine: newEvent.ticketSaleOnLine,
         ticketSaleAtDoor: newEvent.ticketSaleAtDoor,
@@ -108,7 +107,7 @@
       
       let json : any;
       let changedRows : number = 0;
-  
+
       const event : IEvent = {
         ID: eventData.ID,
         organizationID: eventData.organizationID,
@@ -118,7 +117,7 @@
         startTime: eventData.startTime,
         placeID: eventData.placeID,
         placeDescription: eventData.placeDescription,
-        public: eventData.public,
+        published: eventData.published,
         ticketPrice: eventData.ticketPrice,
         ticketSaleOnLine: eventData.ticketSaleOnLine,
         ticketSaleAtDoor: eventData.ticketSaleAtDoor

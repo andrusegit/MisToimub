@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import ResponseCodes from "../../general.ts/responseCodes";
 import UserServices from "../users/services";
-import { IEvent } from "./interfaces";
+//import { IEvent } from "./interfaces";
 import EventServices from "./services";
 
 const NOTFOUND = -1;
@@ -26,7 +26,7 @@ const EventsMiddlewares = {
     }
   },
 
-
+/*
   verifyOrganizationInDB: async (req: Request, res: Response, next: NextFunction) => {
     
     const {  
@@ -52,8 +52,7 @@ const EventsMiddlewares = {
       });
     }
   },
-
+*/
 };
-
 
 export default EventsMiddlewares;

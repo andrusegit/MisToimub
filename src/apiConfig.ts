@@ -1,5 +1,5 @@
 const config = {
-  port: 3000,
+  port: 3001,
   jwtSecret: '.uaygduahfbucuigiwufiu33872iiweuhfwie7kkwgy',
   saltRounds: 10,
   apiPath: '/api',

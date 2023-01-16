@@ -144,3 +144,16 @@ package.json-i "test": "nyc mocha -r ts-node/register 'tests/**/*.ts'"
 (enne "test": "echo \"Error: no test specified\" && exit 1",)
 
 npm install swagger-autogen and swagger-ui-express
+
+Selleks, et apit kasutada teiselt aadressilt:
+npm i cors express nodemon
+
+const cors = require('cors');
+app.use(cors({
+    origin: 'https://www.section.io'
+}));
+
+või:
+app.get('/ingredients', cors(), (req, res, next) => {
+    res.send(ingredients);
+});

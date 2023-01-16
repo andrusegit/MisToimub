@@ -9,6 +9,9 @@ const NOTFOUND = -1;
 const authControllers = {
   login: async (req: Request, res: Response) => {
     const {email, password} = req.body;
+
+    //res.set('Access-Control-Allow-Origin', '*');
+
     if (!email || !password) {
       return res.status(ResponseCodes.badRequest).json({
         success: false,

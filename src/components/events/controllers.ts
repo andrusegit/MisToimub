@@ -9,10 +9,10 @@ const EventControllers = {
     let params: {[key: string]: any} = {};
 
     if (req.query.host)
-      params.organizationID = req.query.place;
+      params.organizationID = req.query.host;
 
-    if (req.query.status)
-      params.statusID = req.query.status;
+    if (req.query.published)
+      params.published = req.query.published;
     
     if (req.query.dateFrom) 
       params.dateFrom = req.query.dateFrom;
@@ -58,7 +58,7 @@ const EventControllers = {
     const {  
       organizationID, eventTypeID, eventName,
       description, startTime, placeID, placeDescription,
-      statusID,ticketPrice, ticketSaleOnLine,
+      published, ticketPrice, ticketSaleOnLine,
       ticketSaleAtDoor
     } = req.body;
     
@@ -70,7 +70,7 @@ const EventControllers = {
       startTime: startTime,
       placeID: placeID,
       placeDescription: placeDescription,
-      public: statusID,
+      published: published,
       ticketPrice: ticketPrice,
       ticketSaleOnLine: ticketSaleOnLine,
       ticketSaleAtDoor: ticketSaleAtDoor
@@ -81,7 +81,8 @@ const EventControllers = {
     if (insertId > 0) {
       res.status(ResponseCodes.created).json({
         success: true,
-        message: 'Event added to list'
+        message: 'Event added to list',
+        ID: insertId
       });
     }
     else {
@@ -98,7 +99,7 @@ const EventControllers = {
       ID,
       organizationID, eventTypeID, eventName,
       description, startTime, placeID, placeDescription,
-      statusID,ticketPrice, ticketSaleOnLine,
+      published ,ticketPrice, ticketSaleOnLine,
       ticketSaleAtDoor
     } = req.body;
     
@@ -111,7 +112,7 @@ const EventControllers = {
       startTime: startTime,
       placeID: placeID,
       placeDescription: placeDescription,
-      public: statusID,
+      published: published,
       ticketPrice: ticketPrice,
       ticketSaleOnLine: ticketSaleOnLine,
       ticketSaleAtDoor: ticketSaleAtDoor

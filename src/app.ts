@@ -16,7 +16,10 @@ const app: Express = express();
 //const port: number = 3000;
 const { apiPath } = config;
 
+const cors = require('cors');
+
 app.use(express.json());
+app.use(cors());
 app.post(`${apiPath}/login`, authControllers.login);
 app.use(`${apiPath}/eventlist`, eventListRoutes);
 app.use(`${apiPath}/events`, eventRoutes);

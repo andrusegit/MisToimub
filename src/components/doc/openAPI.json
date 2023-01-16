@@ -334,8 +334,8 @@
                               "description": "Sündmuskoha täpsem kirjeldus",
                               "type": "string" 
                             },
-                            "statusID": {
-                              "description": "Sündmuse planeerimise staatus - 1 planeerimisel 2 toimub",
+                            "published": {
+                              "description": "Sündmuse planeerimise staatus - 0 planeerimisel 1 toimub",
                               "type": "integer"
                             },
                             "ticketPrice": {
@@ -408,7 +408,7 @@
                       "type": "string",
                       "example": "Suures saalis"
                     },
-                    "public": {
+                    "published": {
                       "description": "Sündmust kuvatakse kõigile",
                       "type": "boolean"
                     },
@@ -446,6 +446,10 @@
                       "message": {
                        "type": "string",
                         "example": "Event added to list"
+                      },
+                      "ID": {
+                        "type": "number",
+                        "example": "1"
                       }
                     }
                   }
@@ -526,7 +530,7 @@
                       "type": "string",
                       "example": "Suures saalis"
                     },
-                    "public": {
+                    "published": {
                       "description": "Sündmust kuvatakse kõigile",
                       "type": "boolean"
                     },
